@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Jost";
+  src: url("./assets/fonts/jost/Jost-Italic-VariableFont_wght.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Jost";
+  src: url("./assets/fonts/jost/Jost-VariableFont_wght.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/nunito/NunitoSans-Italic-VariableFont_YTLC\,opsz\,wdth\,wght.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/nunito/NunitoSans-VariableFont_YTLC\,opsz\,wdth\,wght.ttf") format("truetype");
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    @apply bg-white100;
+  }
+
+  .home-container {
+    @apply mx-auto w-full max-w-[1536px] px-12;
+  }
+}
