@@ -1,15 +1,11 @@
-import { ArrowLeftIcon } from "@/assets/icons";
-import { Layout } from "@/components";
+import { Layout, ReturnTo } from "@/components";
 import { RoutesEnum } from "@/enums";
 import { Link } from "react-router-dom";
 
 const Error404Page = () => {
   return (
     <Layout>
-      <Link className='flex gap-2 items-center' to={RoutesEnum.HOME}>
-        <ArrowLeftIcon />
-        <p>return to Home page</p>
-      </Link>
+      <ReturnTo to={RoutesEnum.HOME}>return to Home page</ReturnTo>
       <div className='p-12 w-full text-center font-semibold my-4 relative bg-404 bg-cover'>
         <h1 className='text-[128px] leading-none font-jost font-bold mb-8 text-white50 drop-shadow-lg'>404</h1>
         <h2 className='text-2xl mb-2'>Sorry, but the page you were looking for could not be found.</h2>

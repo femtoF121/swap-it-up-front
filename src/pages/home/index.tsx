@@ -1,7 +1,7 @@
 import { Layout } from "@/components";
 
 const HomePage = () => {
-  return <Layout withAuth>HomePage</Layout>;
+  return <Layout>HomePage</Layout>;
 };
 
 export default HomePage;

@@ -47,7 +47,7 @@ export const Footer: FC<FooterProps> = ({ className, withAuth, ...rest }) => {
         </div>
         <div className='flex flex-col gap-2 items-end text-white200'>
           Like to use mobile version?{" "}
-          <Button size='sm' styleType='secondary' isVoluminous>
+          <Button size='sm' styleType='secondary' className='!py-2' isVoluminous>
             Get our app
           </Button>
         </div>
