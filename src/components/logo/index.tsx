@@ -9,7 +9,7 @@ type LogoProps = {
 
 export const Logo: FC<LogoProps> = ({ className }) => {
   return (
-    <Link to={RoutesEnum.HOME} className={classNames("text-white100 text-[40px] font-jost", className)}>
+    <Link to={RoutesEnum.HOME} className={classNames("text-white100 text-[40px] font-jost hover:no-underline", className)}>
       Swap<span className='text-orange400'>It</span>Up
     </Link>
   );

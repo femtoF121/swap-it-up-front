@@ -28,6 +28,10 @@ export default {
       jost: "Jost, sans-serif",
     },
     extend: {
+      backgroundImage: {
+        404: "url('/src/assets/images/404-bg.svg')",
+        login: "url('/src/assets/images/login-bg.svg')",
+      },
       screens: {
         mobile: { max: "599px" },
         tablet: { max: "1279px" },

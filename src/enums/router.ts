@@ -7,4 +7,5 @@ export const RoutesEnum = {
   MY_ITEMS: "/my-items",
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
+  SETTINGS: "/settings",
 };

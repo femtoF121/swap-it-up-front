@@ -6,19 +6,18 @@ import { RoutesEnum } from "@/enums";
 import { Button } from "../button";
 
 type FooterProps = {
-  className?: string;
-  isAuth: boolean;
+  withAuth?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
-export const Footer: FC<FooterProps> = ({ className, isAuth, ...rest }) => {
+export const Footer: FC<FooterProps> = ({ className, withAuth, ...rest }) => {
   return (
     <footer className={classNames("py-8", className)} {...rest}>
       <div className='flex justify-between'>
         <div>
-          <Logo className='text-[24px] text-teal600' />
-          {isAuth ? (
+          <Logo className='text-[24px] !text-teal600' />
+          {withAuth ? (
             <>
-              <div className='flex gap-4 text-teal600 mb-2 mt-4'>
+              <div className='flex gap-4 mb-2 mt-4'>
                 <Link to={RoutesEnum.ACCOUNT}>Account</Link>
                 <Link to={RoutesEnum.CHATS}>Chat</Link>
                 <Link to={RoutesEnum.ADD_ITEM} className='text-orange400'>

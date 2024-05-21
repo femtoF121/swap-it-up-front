@@ -28,10 +28,18 @@
 
 @layer base {
   body {
-    @apply bg-white100;
+    @apply bg-white100 text-teal600;
+  }
+
+  a {
+    @apply hover:underline decoration-[1.5px];
   }
 
   .home-container {
     @apply mx-auto w-full max-w-[1536px] px-12;
+  }
+
+  .dropdown-item {
+    @apply px-6;
   }
 }
