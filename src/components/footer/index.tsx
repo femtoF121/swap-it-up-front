@@ -17,7 +17,7 @@ export const Footer: FC<FooterProps> = ({ className, withAuth, ...rest }) => {
           <Logo className='text-[24px] !text-teal600' />
           {withAuth ? (
             <>
-              <div className='flex gap-4 mb-2 mt-4'>
+              <div className='flex gap-4 mb-2 mt-4 flex-wrap'>
                 <Link to={RoutesEnum.ACCOUNT}>Account</Link>
                 <Link to={RoutesEnum.CHATS}>Chat</Link>
                 <Link to={RoutesEnum.ADD_ITEM} className='text-orange400'>
@@ -47,7 +47,7 @@ export const Footer: FC<FooterProps> = ({ className, withAuth, ...rest }) => {
         </div>
         <div className='flex flex-col gap-2 items-end text-white200'>
           Like to use mobile version?{" "}
-          <Button size='sm' styleType='secondary' className='!py-2' isVoluminous>
+          <Button size='sm' styleType='secondary' className='!py-2' voluminous>
             Get our app
           </Button>
         </div>

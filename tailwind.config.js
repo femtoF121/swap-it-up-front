@@ -28,9 +28,12 @@ export default {
       jost: "Jost, sans-serif",
     },
     extend: {
+      boxShadow: {
+        card: "0px 2px 8px 0px rgba(0,0,0,0.15)",
+      },
       backgroundImage: {
-        404: "url('/src/assets/images/404-bg.svg')",
-        login: "url('/src/assets/images/login-bg.svg')",
+        404: "url('/src/assets/images/404-bg.webp')",
+        login: "url('/src/assets/images/login-bg.webp')",
       },
       screens: {
         mobile: { max: "599px" },

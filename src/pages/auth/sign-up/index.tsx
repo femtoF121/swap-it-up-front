@@ -50,7 +50,7 @@ const SignUpPage = () => {
             <span className='text-orange400 mb-4'>Please fill in all of the fields.</span>
             <Input label='Name' type='text' name='name' required />
             <Input className='mt-4' label='Surname' type='text' name='surname' required />
-            <Button size='sm' className='w-full mt-6 mb-2' onClick={nextStep}>
+            <Button size='sm' className='w-full mt-6 mb-2'>
               Sign up
             </Button>
             <Button size='sm' styleType='secondary' className='w-full mb-4'>

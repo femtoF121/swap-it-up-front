@@ -9,9 +9,9 @@ type LayoutProps = {
 
 export const Layout: FC<LayoutProps> = ({ withAuth, children, className }) => {
   return (
-    <div className={cn(className, "home-container flex flex-col min-h-screen gap-8")}>
+    <div className='home-container flex flex-col min-h-screen gap-8'>
       <Header withAuth={withAuth} />
-      <main className='flex-1'>{children}</main>
+      <main className={cn("flex-1", className)}>{children}</main>
       <Footer withAuth={withAuth} />
     </div>
   );

@@ -1,3 +1,4 @@
+import { ItemCard } from "./item-card/index";
 import { ReturnTo } from "./return-to";
 import { Input } from "./input";
 import { LanguageSwitcher } from "./language-switcher";
@@ -8,4 +9,4 @@ import { Logo } from "./logo";
 import { Loader } from "./loader";
 import { Header } from "./header";
 
-export { LanguageSwitcher, Layout, Loader, Logo, Header, Footer, Button, Input, ReturnTo };
+export { LanguageSwitcher, Layout, Loader, Logo, Header, Footer, Button, Input, ReturnTo, ItemCard };
