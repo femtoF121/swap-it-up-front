@@ -27,6 +27,9 @@
 }
 
 @layer base {
+  html {
+    @apply below-768:text-[12px];
+  }
   body {
     @apply bg-white100 text-teal600;
   }

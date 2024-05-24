@@ -20,7 +20,11 @@ export const Input: FC<InputProps> = ({ label, name, className, inputClassName, 
         type={type === "password" ? (viewPassword ? "text" : "password") : type}
         id={name}
         name={name}
-        className={cn("h-[40px] rounded-lg border border-white200 bg-white50 px-3", inputClassName)}
+        size={1}
+        className={cn(
+          "h-[2.5rem] rounded-lg hover:brightness-[98%] border border-white200 bg-white50 px-3 focus:border-orange400 focus-visible:outline-none",
+          inputClassName
+        )}
       />
       {type === "password" && (
         <div className={cn("absolute right-0 cursor-pointer p-2", label ? "top-7" : "top-0")} onClick={toggleViewPassword}>

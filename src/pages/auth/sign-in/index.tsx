@@ -7,7 +7,7 @@ const SignInPage = () => {
   return (
     <Layout>
       <form action='' className='w-full flex flex-col items-center'>
-        <h1 className='text-[40px]'>Sign In</h1>
+        <h1 className='text-[2.5rem]'>Sign In</h1>
         <ReturnTo to={RoutesEnum.HOME} className='mt-2 mb-6'>
           return to Home page
         </ReturnTo>

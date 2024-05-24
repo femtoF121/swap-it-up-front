@@ -1,11 +1,16 @@
 {
-  "Add item": "Додати предмет",
+  "Account": "Профіль",
   "Chat": "Чат",
-  "Account": "Акаунт",
-  "My items": "Мої предмети",
-  "My deals": "Мої угоди",
-  "Settings": "Налаштування",
+  "Add item": "Додати предмет",
   "Log out": "Вийти",
+  "My deals": "Мої угоди",
+  "My items": "Мої предмети",
+  "Settings": "Налаштування",
+  "Sign Up": "Зареєструватися",
   "Sign In": "Увійти",
-  "Sign Up": "Зареєструватися"
+  "Like to use mobile version?": "Хочете спробувати мобільну версію?",
+  "Get our app": "Завантажити",
+  "Hello": "Привіт",
+  "What are you looking for?": "Що ви шукаєте?",
+  "Search": "Шукати"
 }

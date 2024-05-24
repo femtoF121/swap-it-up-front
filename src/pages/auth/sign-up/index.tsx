@@ -18,7 +18,7 @@ const SignUpPage = () => {
   return (
     <Layout>
       <form action='' className='w-full flex flex-col items-center'>
-        <h1 className='text-[40px]'>Sign Up</h1>
+        <h1 className='text-[2.5rem]'>Sign Up</h1>
         {step === 0 && (
           <>
             <ReturnTo to={RoutesEnum.HOME} className='mt-2 mb-4'>

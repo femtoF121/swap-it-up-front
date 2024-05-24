@@ -13,7 +13,6 @@ export const DropDownTarget: FC<DropdownButtonProps> = ({ children, className, o
       onClick={(e) => {
         onClick?.(e);
         props.open ? props.onClose() : props.onOpen();
-        console.log("target", props.open);
       }}>
       {children}
     </button>

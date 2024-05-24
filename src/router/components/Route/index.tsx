@@ -10,7 +10,7 @@ export const Route: FC<RouteProps> = ({ component: Component }) => {
   return (
     <Suspense
       fallback={
-        <div className='flex h-svh items-center justify-center'>
+        <div className='flex h-screen items-center justify-center'>
           <Loader />
         </div>
       }>

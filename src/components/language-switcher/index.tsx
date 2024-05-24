@@ -1,6 +1,12 @@
+import cn from "classnames";
 import i18next from "i18next";
+import { ComponentPropsWithoutRef, FC } from "react";
 
-export const LanguageSwitcher = () => {
+interface LanguageSwitcherProps extends ComponentPropsWithoutRef<"div"> {
+  highlightColor?: string;
+}
+
+export const LanguageSwitcher: FC<LanguageSwitcherProps> = ({ highlightColor = "text-teal600", className }) => {
   const changeLngToEn = () => {
     i18next.changeLanguage("en");
   };
@@ -9,12 +15,12 @@ export const LanguageSwitcher = () => {
   };
 
   return (
-    <div className='hover:[&>*]:text-teal600 hover:[&>*]:cursor-pointer'>
-      <span className={i18next.language === "uk" ? "text-teal600" : ""} onClick={changeLngToUk}>
+    <div className={cn(`hover:[&>*]:${highlightColor} hover:[&>*]:cursor-pointer`, className)}>
+      <span className={i18next.language.slice(0, 2) === "uk" ? highlightColor : ""} onClick={changeLngToUk}>
         UA
       </span>{" "}
       |{" "}
-      <span className={i18next.language === "en" ? "text-teal600" : ""} onClick={changeLngToEn}>
+      <span className={i18next.language.slice(0, 2) === "en" ? highlightColor : ""} onClick={changeLngToEn}>
         EN
       </span>
     </div>
