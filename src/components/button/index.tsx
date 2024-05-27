@@ -14,7 +14,7 @@ export const Button: FC<ButtonProps> = ({ styleType = "primary", size = "md", cl
     <button
       {...rest}
       className={classNames(
-        "rounded-lg leading-[1.33] transition-all hover:brightness-95 will-change-transform",
+        "rounded-lg leading-[1.33] transition-all hover:brightness-95 will-change-transform select-none",
         {
           "text-[1rem] px-6 h-[2.5rem]": size === "sm",
           "text-[1.5rem] px-8 py-3": size === "md",

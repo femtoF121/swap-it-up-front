@@ -28,10 +28,10 @@
 
 @layer base {
   html {
-    @apply below-768:text-[12px];
+    @apply below-768:text-[12px] scroll-smooth;
   }
   body {
-    @apply bg-white100 text-teal600;
+    @apply bg-white100 text-teal600 scroll-smooth;
   }
 
   a {
