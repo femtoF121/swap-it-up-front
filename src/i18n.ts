@@ -12,8 +12,7 @@ i18n
     fallbackLng: "en",
     debug: true,
     supportedLngs: ["en", "uk"],
-    nonExplicitSupportedLngs: true,
-    saveMissing: true,
+    nonExplicitSupportedLngs: false,
     returnEmptyString: false,
   });
 

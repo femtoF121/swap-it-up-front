@@ -26,7 +26,7 @@ export const ScrollButton = () => {
   return (
     <Button
       onClick={scrollToTop}
-      styleType='secondary'
+      variant='secondary'
       className={cn(
         "fixed !size-16 !rounded-full bottom-5 right-5 transition-all duration-1000",
         visible ? "opacity-70 visible" : "opacity-0 invisible"

@@ -1,13 +1,14 @@
 import { EyeIcon, EyeSlashIcon } from "@/assets/icons";
 import cn from "classnames";
-import { ComponentPropsWithoutRef, FC, useState } from "react";
+import { FC, InputHTMLAttributes, useState } from "react";
 
-interface InputProps extends ComponentPropsWithoutRef<"input"> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   inputClassName?: string;
+  error?: string;
 }
 
-export const Input: FC<InputProps> = ({ label, name, className, inputClassName, type, ...rest }) => {
+export const Input: FC<InputProps> = ({ label, name, error, className, inputClassName, type, ...rest }) => {
   const [viewPassword, setViewPassword] = useState(false);
 
   const toggleViewPassword = () => setViewPassword((prev) => !prev);
@@ -26,6 +27,7 @@ export const Input: FC<InputProps> = ({ label, name, className, inputClassName, 
           inputClassName
         )}
       />
+      {error && <span className='text-[red] text-[12px] leading-none -mt-0.5'>{error.charAt(0).toUpperCase() + error.slice(1)}</span>}
       {type === "password" && (
         <div className={cn("absolute right-0 cursor-pointer p-2", label ? "top-7" : "top-0")} onClick={toggleViewPassword}>
           {viewPassword ? <EyeSlashIcon className='text-white200 size-6' /> : <EyeIcon className='text-white200 size-6' />}

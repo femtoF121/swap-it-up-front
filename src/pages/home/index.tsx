@@ -20,7 +20,7 @@ const HomePage = () => {
             inputClassName='!border-orange100 border-[2px] !h-full text-[1.5rem]'
             placeholder={t("What are you looking for?")}
           />
-          <Button styleType='secondary' className='shrink-0 font-semibold'>
+          <Button variant='secondary' className='shrink-0 font-semibold'>
             {t("Search")}
           </Button>
         </search>
