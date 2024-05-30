@@ -20,4 +20,12 @@ const registerSchema = loginSchema.concat(
   })
 );
 
-export { loginSchema, registerSchema };
+const addItemSchema = yup.object().shape({
+  name: yup.string().required().min(10).max(40),
+  category: yup.object().required(),
+  color: yup.object().required(),
+  state: yup.object().required(),
+  description: yup.string().required().min(40).max(500),
+});
+
+export { loginSchema, registerSchema, addItemSchema };

@@ -17,7 +17,7 @@ const HomePage = () => {
             type='text'
             name='search'
             className='shrink'
-            inputClassName='!border-orange100 border-[2px] !h-full text-[1.5rem]'
+            inputClassName='!border-orange100 border-[2px] !h-full !text-[1.5rem]'
             placeholder={t("What are you looking for?")}
           />
           <Button variant='secondary' className='shrink-0 font-semibold'>

@@ -41,6 +41,7 @@ export default {
         tablet: { max: "1279px" },
         desktop: { min: "1280px" },
         "below-998": { max: "998px" },
+        "above-999": { min: "999px" },
         "below-1200": { max: "1199px" },
         "below-420": { max: "420px" },
         "above-1200": { min: "1200px" },

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { FC, HTMLAttributes } from "react";
 import { Logo } from "../logo";
 import { LanguageSwitcher } from "../language-switcher";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RoutesEnum } from "@/enums";
 import { AccountIcon, ArrowDownIcon, ChatIcon, PlusIcon } from "@/assets/icons";
 import Dropdown from "../dropdown";
@@ -18,13 +18,14 @@ type HeaderProps = {
 export const Header: FC<HeaderProps> = ({ withAuth, className }) => {
   const { t } = useTranslation();
   const { mobile, tablet } = useBreakpoints();
+  const navigate = useNavigate();
 
   return (
     <header className={classNames("bg-teal200 text-white100 rounded-b-[1rem] py-4 px-8 w-full flex justify-between items-center", className)}>
       <div className='gap-8 flex items-center'>
         <Logo />{" "}
         {withAuth && (
-          <Button voluminous size='sm' className='!text-[1.5rem] !h-[3rem] mobile:px-4'>
+          <Button voluminous size='sm' className='!text-[1.5rem] !h-[3rem] mobile:px-4' onClick={() => navigate(RoutesEnum.ADD_ITEM)}>
             {tablet ? <PlusIcon strokeWidth='3' /> : t("Add item")}
           </Button>
         )}

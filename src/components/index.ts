@@ -1,4 +1,5 @@
-import { ScrollButton } from "./scroll-button/index";
+import { Textarea } from "./textarea";
+import { ScrollButton } from "./scroll-button";
 import { BurgerMenu } from "./burger-menu";
 import { ItemCard } from "./item-card";
 import { Card } from "./card";
@@ -11,5 +12,22 @@ import { Footer } from "./footer";
 import { Logo } from "./logo";
 import { Loader } from "./loader";
 import { Header } from "./header";
+import { CustomSelect } from "./custom-select";
 
-export { BurgerMenu, Card, LanguageSwitcher, Layout, Loader, Logo, Header, Footer, Button, Input, ReturnTo, ItemCard, ScrollButton };
+export {
+  BurgerMenu,
+  Card,
+  LanguageSwitcher,
+  Layout,
+  Loader,
+  Logo,
+  Header,
+  Footer,
+  Button,
+  Input,
+  ReturnTo,
+  ItemCard,
+  ScrollButton,
+  CustomSelect,
+  Textarea,
+};

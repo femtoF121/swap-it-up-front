@@ -14,12 +14,13 @@ const SignInPage = () => {
   const { errors, touched, handleBlur, values, handleChange, handleSubmit } = useFormik({
     initialValues: { email: "", password: "" },
     onSubmit: async (values) => {
-      console.log(values);
+      console.log("sent values", values);
       try {
         await login({ email, password });
         const pay = await getUserDetails();
-        if (isSuccess) console.log("fulfilled", data);
-        else console.log(pay);
+        console.log("result", resultUserDetails);
+        if (isSuccess) console.log("success", data);
+        else console.log("not success", pay);
       } catch (error) {
         console.error("rejected", error);
       }
@@ -57,7 +58,7 @@ const SignInPage = () => {
         <Button size='sm' className='w-full mt-6 mb-2' type='submit'>
           {t("Sign in")}
         </Button>
-        <Button size='sm' variant='secondary' className='w-full mb-4'>
+        <Button size='sm' variant='secondary' type='button' className='w-full mb-4'>
           {t("Sign in with Google")}
         </Button>
         <Link to={"#"} className='underline decoration-1 mb-2'>

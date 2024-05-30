@@ -68,11 +68,12 @@ const SignUpPage = () => {
             <Button
               size='sm'
               className='w-full mt-6 mb-2'
+              type='button'
               onClick={nextStep}
               disabled={!!errors.email || !!errors.password || !!errors.confirmPassword || Object.keys(touched).length <= 0}>
               {t("Next")}
             </Button>
-            <Button size='sm' variant='secondary' className='w-full mb-4'>
+            <Button size='sm' variant='secondary' type='button' className='w-full mb-4'>
               {t("Sign up with Google")}
             </Button>
             <span>
@@ -115,7 +116,7 @@ const SignUpPage = () => {
               disabled={Object.keys(touched).length <= 0 || !!errors.name || !!errors.surname}>
               {t("Sign up")}
             </Button>
-            <Button size='sm' variant='secondary' className='w-full mb-4'>
+            <Button size='sm' variant='secondary' type='button' className='w-full mb-4'>
               {t("Sign up with Google")}
             </Button>
             <span>
