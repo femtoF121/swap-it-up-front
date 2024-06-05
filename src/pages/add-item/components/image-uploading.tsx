@@ -1,38 +1,47 @@
+import { useAddItemPictureMutation, useDeleteItemPictureMutation } from "@/api/apiSlice";
 import { CameraIcon, DeleteIcon } from "@/assets/icons";
 import cn from "classnames";
 import { FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Slide, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 type ImageUploadingProps = {
-  setPicturesState: (value: FileList) => void;
+  setPicturesState: (value: string[]) => void;
 };
 
 interface FileWithPreview {
+  id: string;
   file: File;
   preview: string;
 }
 
 export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState }) => {
   const { t } = useTranslation();
+  const [addPicture] = useAddItemPictureMutation();
+  const [deletePicture] = useDeleteItemPictureMutation();
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const addFiles = (selectedFiles: FileList) => {
+  const addFiles = async (selectedFiles: FileList) => {
     const fileArray = Array.from(selectedFiles);
     if (fileArray.some(({ type }) => type !== "image/png" && type !== "image/jpeg")) {
-      toast.warn(t("File have to be .png or .jpg extension."), { className: "!bg-orange50" });
+      toast.warn(t("file_has_to_be_png_or_jpg"), { className: "!bg-warn" });
       return;
     }
     if (fileArray.length + files.length > 5) {
-      toast.warn(t("You can upload up to 5 files."), { className: "!bg-orange50" });
+      toast.warn(t("You can upload up to 5 files."), { className: "!bg-warn" });
       return;
     }
-    const filePreviews = fileArray.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }));
+    const filePreviews = await Promise.all(
+      fileArray.map(async (file) => {
+        const response = await addPicture(file);
+        return {
+          file,
+          preview: URL.createObjectURL(file),
+          id: response.data,
+        };
+      })
+    );
     setFiles((prevFiles) => [...prevFiles, ...filePreviews]);
   };
 
@@ -51,18 +60,25 @@ export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState }) =>
     }
   };
 
-  const handleRemoveFile = (index: number) => {
-    setFiles((previews) => previews.filter((_, i) => i !== index));
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+  const handleRemoveFile = async (index: number) => {
+    const response = await deletePicture(files[index].id);
+    if (!response.error) {
+      setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } else toast.error(t("Something went wrong, try again later."), { className: "!bg-error" });
   };
 
   useEffect(() => {
-    const dataTransfer = new DataTransfer();
-    files.forEach(({ file }) => dataTransfer.items.add(file));
-    setPicturesState(dataTransfer.files);
+    setPicturesState(files.map(({ id }) => id));
   }, [files]);
+
+  useEffect(() => {
+    return () => {
+      if (files.length > 0) files.forEach(({ id }) => deletePicture(id));
+    };
+  }, []);
 
   return (
     <>
@@ -78,7 +94,7 @@ export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState }) =>
         {Array(5)
           .fill(false)
           .map((_, index) => (
-            <div className={cn("h-full mobile:col-span-2 relative group", index === 0 ? "col-span-2 row-span-2 mobile:row-span-1" : "")}>
+            <div key={index} className={cn("h-full mobile:col-span-2 relative group", index === 0 ? "col-span-2 row-span-2 mobile:row-span-1" : "")}>
               {files[index] ? (
                 <>
                   <img
@@ -87,7 +103,7 @@ export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState }) =>
                     className='rounded-lg object-cover w-full h-full'
                     onClick={(e) => e.preventDefault()}
                     onError={() => {
-                      toast.error(t("Failed to load image."), { className: "!bg-[red]/20" });
+                      toast.error(t("Failed to load image."), { className: "!bg-error" });
                       handleRemoveFile(index);
                     }}
                   />
@@ -97,7 +113,7 @@ export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState }) =>
                     <DeleteIcon
                       onClick={() => handleRemoveFile(index)}
                       className={cn(
-                        "stroke-white100 mobile:size-12 cursor-pointer hover:scale-110 transition-all hover:stroke-[#ff3546]",
+                        "stroke-white100 mobile:size-12 cursor-pointer hover:scale-110 transition-all hover:stroke-soft-red",
                         index === 0 ? "size-14" : "size-10"
                       )}
                     />
@@ -112,7 +128,6 @@ export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState }) =>
                     index === files.length ? "border-dashed border-green600" : "border-green400"
                   )}>
                   {files.length === index ? <span className='underline text-green600'>{t("Add photo")}</span> : <CameraIcon />}
-                  {/* <button onClick={() => handleRemoveFile(index)}>Remove</button> */}
                 </div>
               )}
             </div>
@@ -128,7 +143,6 @@ export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState }) =>
         accept='image/png, image/jpeg'
         className='hidden'
       />
-      <ToastContainer position='bottom-right' hideProgressBar closeOnClick transition={Slide} />
     </>
   );
 };

@@ -1,39 +1,73 @@
 import { Button, Card, CustomSelect, Input, Layout, ReturnTo, Textarea } from "@/components";
-import { CATEGORY_OPTIONS, COLOR_OPTIONS, STATE_OPTIONS } from "@/constants/select-options";
+import { STATE_OPTIONS } from "@/constants/select-options";
 import { RoutesEnum } from "@/enums";
 import { addItemSchema } from "@/helpers/validation-schemas";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { ImageUploading } from "./components/image-uploading";
+import { toast } from "react-toastify";
+import withAuth from "@/hocs/with-auth";
+import { useAddItemMutation, useGetCategoriesQuery, useGetColorsQuery } from "@/api/apiSlice";
+import { OptionType } from "@/types/option";
+import { categoriesOptions, colorOptions } from "@/helpers/select-options";
+import { useNavigate } from "react-router-dom";
+
+type FormValues = {
+  name: string;
+  description: string;
+  color: OptionType | null;
+  category: OptionType | null;
+  state: OptionType | null;
+  wantedCategories: OptionType[] | null;
+  pictureIds: string[];
+};
+
+const initialValues: FormValues = {
+  name: "",
+  category: null,
+  color: null,
+  state: null,
+  wantedCategories: null,
+  description: "",
+  pictureIds: [],
+};
 
 const AddItemPage = () => {
   const { t } = useTranslation();
+  const [addItem] = useAddItemMutation();
+  const navigate = useNavigate();
+  const { data: categories } = useGetCategoriesQuery();
+  const { data: colors } = useGetColorsQuery();
   const { errors, touched, handleBlur, values, handleChange, handleSubmit, setFieldValue } = useFormik({
-    initialValues: {
-      name: "",
-      category: undefined,
-      color: undefined,
-      state: undefined,
-      wantedCategories: undefined,
-      description: "",
-      pictures: [],
-    },
-    onSubmit: async (values) => {
-      console.log("sent values", values);
+    initialValues: initialValues,
+    onSubmit: async () => {
       try {
+        const response = await addItem({
+          name,
+          description,
+          color: color!.value,
+          category: category!.value,
+          state: parseInt(state!.value),
+          wantedCategories: wantedCategories ? wantedCategories.map(({ value }) => value) : [],
+          pictureIds,
+        });
+        if (response.error) toast.error(t("Something went wrong, try again later."), { className: "!bg-error" });
+        else {
+          toast.success(t("Item added successfully."), { className: "!bg-green100" });
+          navigate(RoutesEnum.MY_ITEMS);
+        }
       } catch (error) {
-        console.error("rejected", error);
+        toast.error(JSON.stringify(error), { className: "!bg-error" });
       }
     },
     validationSchema: addItemSchema,
   });
-
-  console.log(values.pictures);
+  const { name, category, color, state, wantedCategories, description, pictureIds } = values;
 
   return (
-    <Layout withAuth>
+    <Layout>
       <ReturnTo to={RoutesEnum.HOME}>{t("return to Home page")}</ReturnTo>
-      <h1 className='text-4xl font-semibold my-5'>Add Item</h1>
+      <h1 className='text-4xl font-semibold my-5'>{t("Add Item")}</h1>
       <form className='space-y-5' onSubmit={handleSubmit}>
         <div className='flex below-998:flex-col gap-6'>
           <Card className='w-full space-y-6 p-8'>
@@ -50,7 +84,7 @@ const AddItemPage = () => {
               type='text'
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.name}
+              value={name}
               error={touched.name ? errors.name : undefined}
             />
             <CustomSelect
@@ -59,9 +93,9 @@ const AddItemPage = () => {
                   {t("Category")} <span className='text-green600 text-[14px]'>({t("Required")})</span>
                 </>
               }
-              options={CATEGORY_OPTIONS}
+              options={categoriesOptions(categories, t)}
               onChange={(category) => setFieldValue("category", category)}
-              value={values.category}
+              value={category}
               error={touched.category ? errors.category : undefined}
             />
             <CustomSelect
@@ -70,9 +104,9 @@ const AddItemPage = () => {
                   {t("Color")} <span className='text-green600 text-[14px]'>({t("Required")})</span>
                 </>
               }
-              options={COLOR_OPTIONS}
+              options={colorOptions(colors, t)}
               onChange={(colors) => setFieldValue("color", colors)}
-              value={values.color}
+              value={color}
               error={touched.color ? errors.color : undefined}
             />
             <CustomSelect
@@ -84,9 +118,9 @@ const AddItemPage = () => {
               additionalBlock={t("All categories is chosen by default")}
               placeholder={t("All")}
               isMulti
-              options={CATEGORY_OPTIONS}
+              options={categoriesOptions(categories, t)}
               onChange={(wantedCategories) => setFieldValue("wantedCategories", wantedCategories)}
-              value={values.wantedCategories}
+              value={wantedCategories}
               error={touched.wantedCategories && errors.wantedCategories ? errors.wantedCategories[0] : undefined}
             />
             <CustomSelect
@@ -97,7 +131,7 @@ const AddItemPage = () => {
               }
               options={STATE_OPTIONS}
               onChange={(state) => setFieldValue("state", state)}
-              value={values.state}
+              value={state}
               error={touched.state ? errors.state : undefined}
             />
             <Textarea
@@ -112,12 +146,12 @@ const AddItemPage = () => {
               name='description'
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.description}
+              value={description}
               error={touched.description ? errors.description : undefined}
             />
           </Card>
           <Card className='w-full py-8 px-20 tablet:px-12 mobile:!px-8 flex flex-col'>
-            <ImageUploading setPicturesState={(value) => setFieldValue("pictures", value)} />
+            <ImageUploading setPicturesState={(value) => setFieldValue("pictureIds", value)} />
           </Card>
         </div>
         <Button className='above-999:max-w-[300px] w-full' type='submit'>
@@ -128,4 +162,4 @@ const AddItemPage = () => {
   );
 };
 
-export default AddItemPage;
+export default withAuth(AddItemPage);

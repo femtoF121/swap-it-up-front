@@ -9,6 +9,8 @@ const Home = lazy(() => import("@/pages/home"));
 const SignInPage = lazy(() => import("@/pages/auth/sign-in"));
 const SignUpPage = lazy(() => import("@/pages/auth/sign-up"));
 const AddItemPage = lazy(() => import("@/pages/add-item"));
+const SettingsPage = lazy(() => import("@/pages/settings"));
+const MyItemsPage = lazy(() => import("@/pages/my-items"));
 const Error404Page = lazy(() => import("@/pages/404"));
 
 export const router = createBrowserRouter([
@@ -30,6 +32,16 @@ export const router = createBrowserRouter([
   {
     path: RoutesEnum.ADD_ITEM,
     Component: () => <Route component={AddItemPage} />,
+    errorElement: <Error404Page />,
+  },
+  {
+    path: RoutesEnum.SETTINGS,
+    Component: () => <Route component={SettingsPage} />,
+    errorElement: <Error404Page />,
+  },
+  {
+    path: RoutesEnum.MY_ITEMS,
+    Component: () => <Route component={MyItemsPage} />,
     errorElement: <Error404Page />,
   },
 ]);

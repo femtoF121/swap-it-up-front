@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import { FC, HTMLAttributes } from "react";
 import { Logo } from "../logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RoutesEnum } from "@/enums";
 import { Button } from "../button";
 import { useTranslation } from "react-i18next";
+import { useLogoutMutation } from "@/api/apiSlice";
 
 type FooterProps = {
   withAuth?: boolean;
@@ -12,6 +13,9 @@ type FooterProps = {
 
 export const Footer: FC<FooterProps> = ({ className, withAuth, ...rest }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+
   return (
     <footer className={classNames("py-8", className)} {...rest}>
       <div className='flex justify-between mobile:flex-col gap-4'>
@@ -25,7 +29,14 @@ export const Footer: FC<FooterProps> = ({ className, withAuth, ...rest }) => {
                 <Link to={RoutesEnum.ADD_ITEM} className='text-orange400'>
                   {t("Add item")}
                 </Link>
-                <Link to={RoutesEnum.SIGN_IN}>{t("Log out")}</Link>
+                <div
+                  onClick={() => {
+                    logout();
+                    navigate(RoutesEnum.SIGN_IN);
+                  }}
+                  className='cursor-pointer hover:underline decoration-[1.5px]'>
+                  {t("Log out")}
+                </div>
               </div>
               <div className='text-white400 flex flex-col gap-2'>
                 <Link to={RoutesEnum.MY_DEALS}>{t("My deals")}</Link>

@@ -1,54 +1,112 @@
-import { Button, Input, ItemCard, Layout, ScrollButton } from "@/components";
-import image from "@/assets/images/item-picture.webp";
-import image1 from "@/assets/images/item-book.webp";
-import image2 from "@/assets/images/item-clothes.webp";
-import image3 from "@/assets/images/item-scarf.webp";
-import { CategoryIcon } from "@/assets/icons";
+import { Button, CustomSelect, Input, ItemCard, Layout, Loader, ScrollButton } from "@/components";
+import { PlusIcon, SearchIcon } from "@/assets/icons";
 import { useTranslation } from "react-i18next";
+import { useFormik } from "formik";
+import { useGetCategoriesQuery, useGetColorsQuery, useLazyGetItemsQuery } from "@/api/apiSlice";
+import { categoriesOptions, colorOptions } from "@/helpers/select-options";
+import { ItemPayload } from "@/types/item";
+import { useEffect } from "react";
 
 const HomePage = () => {
   const { t } = useTranslation();
+  const [getItems, { data, isLoading }] = useLazyGetItemsQuery();
+  const { data: categories } = useGetCategoriesQuery();
+  const { data: colors } = useGetColorsQuery();
+  const { values, handleSubmit, handleChange, setFieldValue, resetForm } = useFormik({
+    initialValues: {
+      category: [],
+      color: [],
+      wantedCategories: [],
+      search: "",
+    },
+    onSubmit: () => {
+      console.log(values);
+      getItems(search);
+    },
+  });
+
+  const { search } = values;
+
+  useEffect(() => {
+    getItems(search);
+  }, []);
 
   return (
     <>
-      <Layout withAuth>
-        <search className='flex gap-6 max-w-[800px] mx-auto mb-6'>
-          <Input
-            type='text'
-            name='search'
-            className='shrink'
-            inputClassName='!border-orange100 border-[2px] !h-full !text-[1.5rem]'
-            placeholder={t("What are you looking for?")}
-          />
-          <Button variant='secondary' className='shrink-0 font-semibold'>
-            {t("Search")}
-          </Button>
-        </search>
-        <div className='grid gap-x-[2%] gap-y-[2rem] tablet:gap-y-[1rem] grid-cols-[repeat(auto-fit,minmax(275px,1fr))] below-768:grid-cols-[repeat(auto-fit,minmax(155px,1fr))]'>
-          <ItemCard img={image1} title='Name' category={<CategoryIcon />} description='Veniam et commodo commodo fugiat id.' />
-          <ItemCard
-            img={image3}
-            title='This is an item'
-            category={<CategoryIcon />}
-            description='Et labore minim minim ea in magna veniam non aliquip cupidatat dolore voluptate proident occaecat. Qui et duis elit fugiat ullamco ut. Ut labore Lorem nulla do nisi aliquip enim incididunt tempor. Reprehenderit deserunt minim magna ut pariatur in ut nostrud elit officia in in. Dolore duis nostrud consequat sunt eiusmod magna laboris adipisicing officia dolor. Mollit ipsum magna tempor esse minim enim cupidatat consequat dolor esse laboris ad.'
-            wanted='food, dishes, test, testing, test, test123, 12334'
-          />
-          <ItemCard
-            img={image1}
-            title='Item name'
-            category={<CategoryIcon />}
-            description='Deserunt incididunt do exercitation aute ullamco non reprehenderit ipsum incididunt consectetur voluptate proident minim id.'
-            wanted='Books, cars, clothes'
-          />
-          <ItemCard img={image2} title='Name' category={<CategoryIcon />} description='Veniam et commodo commodo fugiat id.' />
-          <ItemCard
-            img={image}
-            title='This is an item'
-            category={<CategoryIcon />}
-            description='Et labore minim minim ea in magna veniam non aliquip cupidatat dolore voluptate proident occaecat. Qui et duis elit fugiat ullamco ut. Ut labore Lorem nulla do nisi aliquip enim incididunt tempor. Reprehenderit deserunt minim magna ut pariatur in ut nostrud elit officia in in. Dolore duis nostrud consequat sunt eiusmod magna laboris adipisicing officia dolor. Mollit ipsum magna tempor esse minim enim cupidatat consequat dolor esse laboris ad.'
-            wanted='food, dishes, test, testing, test, test123, 12334'
-          />
-        </div>
+      <Layout>
+        <form onSubmit={handleSubmit}>
+          <h3 className='text-2xl font-semibold mb-3 flex items-end gap-10'>
+            {t("Filters")}
+            {(values.category.length > 0 || values.color.length > 0 || values.wantedCategories.length > 0 || values.search) && (
+              <span className='font-[500] text-base flex items-center cursor-pointer hover:text-orange400' onClick={() => resetForm()}>
+                {t("clear all")}
+                <PlusIcon className='rotate-45 size-5' />
+              </span>
+            )}
+          </h3>
+          <div className='flex gap-8 w-full mx-auto mb-6 items-end flex-wrap justify-between'>
+            <div className='flex gap-6 flex-wrap'>
+              <CustomSelect
+                label={t("Category")}
+                placeholder={t("All")}
+                isMulti
+                options={categoriesOptions(categories, t)}
+                onChange={(category) => setFieldValue("category", category)}
+                value={values.category}
+                className='min-w-[200px]'
+              />
+              <CustomSelect
+                label={t("Color")}
+                placeholder={t("All")}
+                isMulti
+                options={colorOptions(colors, t)}
+                onChange={(colors) => setFieldValue("color", colors)}
+                value={values.color}
+                className='min-w-[200px]'
+              />
+              <CustomSelect
+                label={t("Wanted categories")}
+                placeholder={t("All")}
+                isMulti
+                options={categoriesOptions(categories, t)}
+                onChange={(wantedCategories) => setFieldValue("wantedCategories", wantedCategories)}
+                value={values.wantedCategories}
+                className='min-w-[200px]'
+              />
+            </div>
+            <div className='flex max-w-[500px] min-w-[300px] w-full gap-4 h-[48px]'>
+              <Input
+                type='text'
+                name='search'
+                className='shrink'
+                inputClassName='!border-orange100 border-[2px] !h-full'
+                placeholder={t("What are you looking for?")}
+                onChange={handleChange}
+                value={values.search}
+              />
+              <Button type='submit' variant='secondary' className='shrink-0 font-semibold !bg-orange50 !p-[12px]'>
+                <SearchIcon />
+              </Button>
+            </div>
+          </div>
+        </form>
+        {!data || isLoading ? (
+          <Loader className='mx-auto mt-10' />
+        ) : (
+          <div className='items-grid'>
+            {data.list.map(({ id, name, description, category, wantedCategory, pictureIds }: ItemPayload) => (
+              <ItemCard
+                id={id}
+                key={id}
+                img={`${import.meta.env.VITE_SERVER_URL}/items/pictures/${pictureIds[0]}`}
+                title={name}
+                category={category}
+                description={description}
+                wanted={wantedCategory}
+              />
+            ))}
+          </div>
+        )}
       </Layout>
       <ScrollButton />
     </>

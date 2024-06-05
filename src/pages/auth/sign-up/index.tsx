@@ -1,20 +1,32 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "../components";
-import { Button, Input, ReturnTo } from "@/components";
+import { Button, Input, Loader, ReturnTo } from "@/components";
 import { RoutesEnum } from "@/enums";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { registerSchema } from "@/helpers/validation-schemas";
 import { useTranslation } from "react-i18next";
+import { useAddDetailsMutation, useLoginMutation, useRegisterMutation } from "@/api/apiSlice";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+
+interface ErrorResponse {
+  errors: {
+    [key: string]: string[];
+  };
+}
 
 const SignUpPage = () => {
+  const location = useLocation();
+  const [step, setStep] = useState<number>(location.state?.step || 0);
   const { t } = useTranslation();
-  const [step, setStep] = useState(0);
-  const { errors, touched, handleBlur, values, handleChange, handleSubmit } = useFormik({
+  const navigate = useNavigate();
+  const [register, registerResponse] = useRegisterMutation();
+  const [login, loginResponse] = useLoginMutation();
+  const [addDetails] = useAddDetailsMutation();
+  const { errors, touched, handleBlur, values, handleChange, handleSubmit, validateField } = useFormik({
     initialValues: { email: "", password: "", confirmPassword: "", name: "", surname: "" },
-    onSubmit: async (values) => {
-      console.log(values);
-    },
+    onSubmit: () => {},
     validationSchema: registerSchema,
   });
   const { email, password, confirmPassword, name, surname } = values;
@@ -23,8 +35,47 @@ const SignUpPage = () => {
     setStep((prev) => prev + 1);
   };
 
-  const prevStep = () => {
-    setStep((prev) => prev - 1);
+  const handleFirstStep = async () => {
+    if (errors.email || errors.password || errors.confirmPassword) {
+      validateField("email");
+      validateField("password");
+      validateField("confirmPassword");
+      return;
+    }
+    const response = await register({ email, password });
+    if (response.error) {
+      if ("data" in response.error) {
+        const payload = response.error.data as ErrorResponse;
+        let message = "";
+        for (const key in payload.errors) {
+          if (key !== "DuplicateUserName") message += payload.errors[key].map((value) => value).join("\n");
+        }
+        toast.error(message || t("Register failed"), { className: "!bg-error" });
+        return;
+      }
+      toast.error(t("Register failed"), { className: "!bg-error" });
+      return;
+    }
+    await login({ email, password });
+    nextStep();
+  };
+
+  const handleSecondStep = async () => {
+    if (errors.name || errors.surname) {
+      validateField("name");
+      validateField("surname");
+      return;
+    }
+    try {
+      const response = await addDetails({ name, surname });
+      if (response.error) {
+        toast.error(t("Adding details failed"), { className: "!bg-error" });
+        return;
+      }
+      navigate(RoutesEnum.HOME);
+    } catch (error) {
+      toast.error(JSON.stringify(error), { className: "!bg-error" });
+    }
   };
 
   return (
@@ -65,15 +116,11 @@ const SignUpPage = () => {
               value={confirmPassword}
               error={touched.confirmPassword ? errors.confirmPassword : undefined}
             />
-            <Button
-              size='sm'
-              className='w-full mt-6 mb-2'
-              type='button'
-              onClick={nextStep}
-              disabled={!!errors.email || !!errors.password || !!errors.confirmPassword || Object.keys(touched).length <= 0}>
+            {(registerResponse.isLoading || loginResponse.isLoading) && <Loader className='!size-8 mt-4' />}
+            <Button size='sm' className='w-full mt-6 mb-2' onClick={handleFirstStep}>
               {t("Next")}
             </Button>
-            <Button size='sm' variant='secondary' type='button' className='w-full mb-4'>
+            <Button size='sm' variant='secondary' className='w-full mb-4'>
               {t("Sign up with Google")}
             </Button>
             <span>
@@ -86,9 +133,6 @@ const SignUpPage = () => {
         )}
         {step === 1 && (
           <>
-            <ReturnTo to={""} onClick={prevStep} className='mt-2 mb-4'>
-              {t("return to previous step")}
-            </ReturnTo>
             <span className='text-teal600 font-semibold mb-4'>{t("Please fill in all of the fields")}.</span>
             <Input
               label={t("Name")}
@@ -109,14 +153,10 @@ const SignUpPage = () => {
               value={surname}
               error={touched.surname ? errors.surname : undefined}
             />
-            <Button
-              size='sm'
-              className='w-full mt-6 mb-2'
-              type='submit'
-              disabled={Object.keys(touched).length <= 0 || !!errors.name || !!errors.surname}>
+            <Button size='sm' className='w-full mt-6 mb-2' onClick={handleSecondStep}>
               {t("Sign up")}
             </Button>
-            <Button size='sm' variant='secondary' type='button' className='w-full mb-4'>
+            <Button size='sm' variant='secondary' className='w-full mb-4'>
               {t("Sign up with Google")}
             </Button>
             <span>

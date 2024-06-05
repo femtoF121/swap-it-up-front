@@ -9,11 +9,21 @@ type ButtonProps = {
   children?: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button: FC<ButtonProps> = ({ variant = "primary", size = "md", className, children, disabled, voluminous, ...rest }) => {
+export const Button: FC<ButtonProps> = ({
+  variant = "primary",
+  size = "md",
+  className,
+  type = "button",
+  children,
+  disabled,
+  voluminous,
+  ...rest
+}) => {
   return (
     <button
       {...rest}
       disabled={disabled}
+      type={type}
       className={classNames(
         "rounded-lg leading-[1.33] transition-all hover:brightness-95 will-change-transform select-none",
         {

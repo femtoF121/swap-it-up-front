@@ -10,27 +10,34 @@ import { Button } from "../button";
 import { useTranslation } from "react-i18next";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { BurgerMenu } from "../burger-menu";
+import { Loader } from "../loader";
+import { useLogoutMutation } from "@/api/apiSlice";
 
 type HeaderProps = {
   withAuth?: boolean;
+  name?: string;
+  isLoading?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
-export const Header: FC<HeaderProps> = ({ withAuth, className }) => {
+export const Header: FC<HeaderProps> = ({ withAuth, name, isLoading, className }) => {
   const { t } = useTranslation();
   const { mobile, tablet } = useBreakpoints();
   const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
 
   return (
     <header className={classNames("bg-teal200 text-white100 rounded-b-[1rem] py-4 px-8 w-full flex justify-between items-center", className)}>
       <div className='gap-8 flex items-center'>
         <Logo />{" "}
-        {withAuth && (
+        {withAuth && !isLoading && (
           <Button voluminous size='sm' className='!text-[1.5rem] !h-[3rem] mobile:px-4' onClick={() => navigate(RoutesEnum.ADD_ITEM)}>
             {tablet ? <PlusIcon strokeWidth='3' /> : t("Add item")}
           </Button>
         )}
       </div>
-      {mobile ? (
+      {isLoading ? (
+        <Loader className='ml-auto !size-10' />
+      ) : mobile ? (
         <BurgerMenu />
       ) : (
         <nav className='flex gap-8 text-[1.5rem] items-center'>
@@ -50,13 +57,21 @@ export const Header: FC<HeaderProps> = ({ withAuth, className }) => {
                   <ArrowDownIcon className='group-hover:stroke-teal600' />
                 </Dropdown.Target>
                 <Dropdown.List>
-                  <span className='text-[1.5rem] text-teal400 mb-4 px-6'>{t("Hello")}, Name!</span>
+                  <span className='text-[1.5rem] text-teal400 mb-4 px-6'>
+                    {t("Hello")}, {name}!
+                  </span>
                   <Dropdown.Item onClick={() => (window.location.href = RoutesEnum.MY_ITEMS)}>{t("My items")}</Dropdown.Item>
                   <Dropdown.Item onClick={() => (window.location.href = RoutesEnum.MY_DEALS)}>{t("My deals")}</Dropdown.Item>
                   <Dropdown.Item onClick={() => (window.location.href = RoutesEnum.CHATS)}>{t("Chat")}</Dropdown.Item>
                   <Dropdown.Item onClick={() => (window.location.href = RoutesEnum.SETTINGS)}>{t("Settings")}</Dropdown.Item>
                   <hr className='h-px w-full bg-teal600 my-2' />
-                  <Dropdown.Item onClick={() => alert("log out")}>{t("Log out")}</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      logout();
+                      navigate(RoutesEnum.SIGN_IN);
+                    }}>
+                    {t("Log out")}
+                  </Dropdown.Item>
                 </Dropdown.List>
               </Dropdown>
             </>
