@@ -6,6 +6,7 @@ import { Card } from "../card";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import { useTranslation } from "react-i18next";
 import { RoutesEnum } from "@/enums";
+import placeholder from "@/assets/images/placeholder-image.jpg";
 
 interface ItemCardProps extends ComponentPropsWithoutRef<"div"> {
   img: string;
@@ -23,15 +24,19 @@ export const ItemCard: FC<ItemCardProps> = ({ img, title, category, description,
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleEdit = () => {
-    navigate(RoutesEnum.EDIT_ITEM + "/" + id);
+    navigate(RoutesEnum.EDIT_ITEM.replace(":id", id!));
+  };
+
+  const handleClickItem = () => {
+    if (!myItem) navigate(RoutesEnum.ITEM.replace(":id", id!));
   };
 
   return (
-    <Card {...rest} className={cn("flex flex-col gap-4", className, { "group cursor-pointer": !myItem })}>
+    <Card {...rest} className={cn("flex flex-col gap-4", className, { "group cursor-pointer": !myItem })} onClick={handleClickItem}>
       <div className='relative aspect-square max-h-[200px] below-768:max-h-[150px]'>
         {!imageLoaded && <div className='skeleton-loader !rounded-2xl' />}
         <img
-          src={img}
+          src={img || placeholder}
           alt='item photo'
           className={cn("rounded-2xl object-cover aspect-square max-h-[200px] w-full below-768:max-h-[150px]", { hidden: !imageLoaded })}
           onLoad={() => setImageLoaded(true)}
@@ -39,7 +44,7 @@ export const ItemCard: FC<ItemCardProps> = ({ img, title, category, description,
       </div>
       <div className='flex justify-between items-start gap-4'>
         <Link
-          to={""}
+          to={RoutesEnum.ITEM.replace(":id", id!)}
           className='group-hover:text-orange400 hover:text-orange400 hover:no-underline leading-tight break-all font-semibold text-[1.5rem] mobile:text-[1.25rem]'>
           {title}
         </Link>{" "}

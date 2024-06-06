@@ -47,10 +47,14 @@
   }
 
   .skeleton-loader {
-    @apply absolute top-0 right-0 rounded-full bg-white200/80 animate-pulse z-10 inset-0;
+    @apply absolute top-0 right-0 rounded-full bg-white200/80 animate-pulse inset-0;
   }
 
   .items-grid {
     @apply grid gap-x-[2%] gap-y-[2rem] tablet:gap-y-[1rem] desktop:!grid-cols-[repeat(4,minmax(275px,1fr))] above-999:grid-cols-[repeat(3,minmax(275px,1fr))] below-998:grid-cols-[repeat(2,minmax(155px,1fr))];
+  }
+
+  .swiper-pagination-bullet-active {
+    @apply !bg-teal600 testa;
   }
 }

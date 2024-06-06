@@ -28,6 +28,8 @@ const addItemSchema = yup.object().shape({
   description: yup.string().required().min(40).max(500),
 });
 
+const editItemSchema = addItemSchema.omit(["category"]);
+
 const changeInfoSchema = yup.object().shape({
   name: yup.string().required().max(40),
   surname: yup.string().required().max(40),
@@ -47,4 +49,4 @@ const changePasswordSchema = yup.object().shape({
     .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/, "Password must contain at least one letter of each case and one number!"),
 });
 
-export { loginSchema, registerSchema, addItemSchema, changeInfoSchema, changePasswordSchema };
+export { loginSchema, registerSchema, addItemSchema, editItemSchema, changeInfoSchema, changePasswordSchema };

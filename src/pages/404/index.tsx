@@ -1,10 +1,15 @@
 import { Layout, ReturnTo } from "@/components";
 import { RoutesEnum } from "@/enums";
+import { startTransition, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const Error404Page = () => {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    startTransition(() => {});
+  }, []);
 
   return (
     <Layout>

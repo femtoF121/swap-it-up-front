@@ -15,6 +15,6 @@ export const COLOR_OPTIONS = [
 export const STATE_OPTIONS = [
   { value: "0", label: "Okay" },
   { value: "1", label: "Good" },
-  { value: "2", label: "Very Good" },
-  { value: "4", label: "Perfect" },
+  { value: "2", label: "Very good" },
+  { value: "3", label: "Perfect" },
 ];

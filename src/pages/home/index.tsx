@@ -16,7 +16,7 @@ const HomePage = () => {
     initialValues: {
       category: [],
       color: [],
-      wantedCategories: [],
+      wantedCategory: [],
       search: "",
     },
     onSubmit: () => {
@@ -37,7 +37,7 @@ const HomePage = () => {
         <form onSubmit={handleSubmit}>
           <h3 className='text-2xl font-semibold mb-3 flex items-end gap-10'>
             {t("Filters")}
-            {(values.category.length > 0 || values.color.length > 0 || values.wantedCategories.length > 0 || values.search) && (
+            {(values.category.length > 0 || values.color.length > 0 || values.wantedCategory.length > 0 || values.search) && (
               <span className='font-[500] text-base flex items-center cursor-pointer hover:text-orange400' onClick={() => resetForm()}>
                 {t("clear all")}
                 <PlusIcon className='rotate-45 size-5' />
@@ -69,8 +69,8 @@ const HomePage = () => {
                 placeholder={t("All")}
                 isMulti
                 options={categoriesOptions(categories, t)}
-                onChange={(wantedCategories) => setFieldValue("wantedCategories", wantedCategories)}
-                value={values.wantedCategories}
+                onChange={(wantedCategory) => setFieldValue("wantedCategory", wantedCategory)}
+                value={values.wantedCategory}
                 className='min-w-[200px]'
               />
             </div>
@@ -98,7 +98,7 @@ const HomePage = () => {
               <ItemCard
                 id={id}
                 key={id}
-                img={`${import.meta.env.VITE_SERVER_URL}/items/pictures/${pictureIds[0]}`}
+                img={pictureIds[0] ? `${import.meta.env.VITE_SERVER_URL}/items/pictures/${pictureIds[0]}` : ""}
                 title={name}
                 category={category}
                 description={description}

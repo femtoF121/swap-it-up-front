@@ -39,7 +39,7 @@ const MyItemsPage = () => {
                 <ItemCard
                   id={id}
                   key={id}
-                  img={`${import.meta.env.VITE_SERVER_URL}/items/pictures/${pictureIds[0]}`}
+                  img={pictureIds[0] ? `${import.meta.env.VITE_SERVER_URL}/items/pictures/${pictureIds[0]}` : ""}
                   title={name}
                   category={category}
                   description={description}

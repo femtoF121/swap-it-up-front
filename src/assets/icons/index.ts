@@ -13,6 +13,7 @@ import { ReactComponent as EyeIcon } from "./eye.svg";
 import { ReactComponent as EyeSlashIcon } from "./eye-slash.svg";
 import { ReactComponent as PlusIcon } from "./plus.svg";
 import { ReactComponent as SearchIcon } from "./search.svg";
+import { ReactComponent as LocationMarkerIcon } from "./location-marker.svg";
 
 export {
   AccountIcon,
@@ -30,4 +31,5 @@ export {
   EyeSlashIcon,
   PlusIcon,
   SearchIcon,
+  LocationMarkerIcon,
 };

@@ -28,6 +28,7 @@
     "react-router-dom": "^6.23.0",
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
+    "swiper": "^11.1.4",
     "vite-plugin-svgr": "^4.2.0",
     "yup": "^1.4.0"
   },

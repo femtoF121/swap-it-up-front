@@ -27,11 +27,11 @@ const SettingsPage = () => {
   const [deleteAccount] = useDeleteUserMutation();
   const { values, handleBlur, handleChange, handleSubmit, touched, errors, setFieldValue } = useFormik({
     initialValues: {
-      name: t("Loading..."),
-      surname: t("Loading..."),
-      nickname: t("Loading..."),
-      country: t("Loading..."),
-      city: t("Loading..."),
+      name: t("Loading") + "...",
+      surname: t("Loading") + "...",
+      nickname: t("Loading") + "...",
+      country: t("Loading") + "...",
+      city: t("Loading") + "...",
       avatar: null,
     },
     onSubmit: async () => {
