@@ -25,8 +25,6 @@ export const ImageUploading: FC<ImageUploadingProps> = ({ setPicturesState, pict
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // console.log(files, pictureIds);
-
   const addFiles = async (selectedFiles: FileList) => {
     const fileArray = Array.from(selectedFiles);
     if (fileArray.some(({ type }) => type !== "image/png" && type !== "image/jpeg")) {

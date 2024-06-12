@@ -65,14 +65,35 @@ export const apiSlice = createApi({
     getDetails: builder.query<any, void>({
       query: () => "/user/details",
     }),
+    getUserDetails: builder.query({
+      query: (id) => `/user/details/${id}`,
+    }),
     getAvatar: builder.query<any, void>({
       query: (id) => ({ url: `/user/details/${id}/avatar`, responseHandler: (response) => response.text() }),
+    }),
+    forgotPassword: builder.mutation({
+      query: (details) => ({
+        url: "/user/forgotPassword",
+        method: "POST",
+        body: details,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (details) => ({
+        url: "/user/resetPassword",
+        method: "POST",
+        body: details,
+      }),
     }),
     //#endregion
 
     //#region item
     getItems: builder.query({
-      query: (search = "", page = 1, perPage = 10) => `/items/others?Search=${search}&Page=${page}&PerPage=${perPage}`,
+      query: ({ search = "", category = [], color = [], wantedCategory = [], page = 1, perPage = 10 }) =>
+        `/items/others?Search=${search}&Page=${page}&PerPage=${perPage}` +
+        category.reduce((acc: string, value: string) => acc + `&Category=${value}`, "") +
+        color.reduce((acc: string, value: string) => acc + `&Color=${value}`, "") +
+        wantedCategory.reduce((acc: string, value: string) => acc + `&WantedCategory=${value}`, ""),
     }),
     getMyItems: builder.query<any, void>({
       query: () => "/items/own",
@@ -128,6 +149,40 @@ export const apiSlice = createApi({
     //#endregion
 
     //#region deals
+    getDeals: builder.query<any, void>({
+      query: () => `/deals`,
+    }),
+    addDeal: builder.mutation({
+      query: (body) => ({
+        url: "/deals",
+        method: "POST",
+        body: body,
+      }),
+    }),
+    deleteDeal: builder.mutation({
+      query: (id) => ({
+        url: `/deals/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    acceptDeal: builder.mutation({
+      query: (id) => ({
+        url: `/deals/${id}/accept`,
+        method: "patch",
+      }),
+    }),
+    cancelDeal: builder.mutation({
+      query: (id) => ({
+        url: `/deals/${id}/cancel`,
+        method: "patch",
+      }),
+    }),
+    finishDeal: builder.mutation({
+      query: (id) => ({
+        url: `/deals/${id}/finish`,
+        method: "patch",
+      }),
+    }),
     //#endregion
 
     //#region colors
@@ -143,9 +198,8 @@ export const apiSlice = createApi({
     }),
     deleteColor: builder.mutation({
       query: (name) => ({
-        url: "/colors",
+        url: `/colors/${name}`,
         method: "DELETE",
-        body: name,
       }),
     }),
     //#endregion
@@ -158,14 +212,13 @@ export const apiSlice = createApi({
       query: (name) => ({
         url: "/categories",
         method: "POST",
-        body: name,
+        body: { name },
       }),
     }),
     deleteCategory: builder.mutation({
       query: (name) => ({
-        url: "/categories",
+        url: `/categories/${name}`,
         method: "DELETE",
-        body: name,
       }),
     }),
     //#endregion
@@ -180,11 +233,15 @@ export const {
   useLazyGetInfoQuery,
   useChangePasswordMutation,
   useGetDetailsQuery,
+  useGetUserDetailsQuery,
+  useLazyGetUserDetailsQuery,
   useLazyGetDetailsQuery,
   useAddDetailsMutation,
   useChangeDetailsMutation,
   useDeleteUserMutation,
   useLazyGetAvatarQuery,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 
   useGetItemsQuery,
   useLazyGetItemsQuery,
@@ -196,6 +253,13 @@ export const {
   useGetItemPictureQuery,
   useDeleteItemPictureMutation,
   useAddItemPictureMutation,
+
+  useGetDealsQuery,
+  useAddDealMutation,
+  useDeleteDealMutation,
+  useAcceptDealMutation,
+  useCancelDealMutation,
+  useFinishDealMutation,
 
   useGetColorsQuery,
   useAddColorMutation,

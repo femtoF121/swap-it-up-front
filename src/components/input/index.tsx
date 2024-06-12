@@ -48,8 +48,8 @@ export const Input: FC<InputProps> = ({ label, name, error, className, additiona
       {additionalBlock && <span className='text-white400 text-[12px] leading-none'>{additionalBlock}</span>}
       {error && <span className='text-[red] text-[12px] leading-none'>{error.charAt(0).toUpperCase() + error.slice(1)}</span>}
       {type === "password" && (
-        <div className={cn("absolute right-0 cursor-pointer p-2", label ? "top-7" : "top-0")} onClick={toggleViewPassword}>
-          {viewPassword ? <EyeSlashIcon className='text-white200 size-6' /> : <EyeIcon className='text-white200 size-6' />}
+        <div className={cn("absolute right-0 cursor-pointer p-[8px]", label ? "top-[28px]" : "top-0")} onClick={toggleViewPassword}>
+          {viewPassword ? <EyeSlashIcon className='text-white200 size-[24px]' /> : <EyeIcon className='text-white200 size-[24px]' />}
         </div>
       )}
     </div>

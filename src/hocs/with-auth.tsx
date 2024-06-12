@@ -1,11 +1,14 @@
-import { useGetInfoQuery } from "@/api/apiSlice";
+import { useGetDetailsQuery } from "@/api/apiSlice";
 import { Loader } from "@/components";
 import { RoutesEnum } from "@/enums";
 import { Navigate } from "react-router-dom";
+import { createContext } from "react";
+
+export const UserContext = createContext<any>({});
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
   const ComponentWithAuth = (props: any) => {
-    const { data, isLoading, error } = useGetInfoQuery();
+    const { data, isLoading, error } = useGetDetailsQuery();
 
     if (isLoading)
       return (
@@ -18,7 +21,11 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
       return <Navigate to={RoutesEnum.SIGN_IN} />;
     }
 
-    return <WrappedComponent {...props} />;
+    return (
+      <UserContext.Provider value={data}>
+        <WrappedComponent {...props} />
+      </UserContext.Provider>
+    );
   };
 
   return ComponentWithAuth;

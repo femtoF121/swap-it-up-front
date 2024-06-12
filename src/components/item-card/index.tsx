@@ -1,7 +1,6 @@
 import cn from "classnames";
 import { ComponentPropsWithoutRef, FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../button";
 import { Card } from "../card";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import { useTranslation } from "react-i18next";
@@ -16,9 +15,22 @@ interface ItemCardProps extends ComponentPropsWithoutRef<"div"> {
   wanted?: string[];
   myItem?: boolean;
   handleDelete?: () => void;
+  color?: any;
 }
 
-export const ItemCard: FC<ItemCardProps> = ({ img, title, category, description, wanted, myItem = false, className, id, handleDelete, ...rest }) => {
+export const ItemCard: FC<ItemCardProps> = ({
+  img,
+  title,
+  category,
+  description,
+  wanted,
+  myItem = false,
+  className,
+  id,
+  color,
+  handleDelete,
+  ...rest
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -42,21 +54,26 @@ export const ItemCard: FC<ItemCardProps> = ({ img, title, category, description,
           onLoad={() => setImageLoaded(true)}
         />
       </div>
-      <div className='flex justify-between items-start gap-4'>
+      <div className='flex gap-2 justify-between items-start'>
         <Link
           to={RoutesEnum.ITEM.replace(":id", id!)}
-          className='group-hover:text-orange400 hover:text-orange400 hover:no-underline leading-tight break-all font-semibold text-[1.5rem] mobile:text-[1.25rem]'>
+          className='group-hover:text-orange400 hover:text-orange400 hover:no-underline leading-tight font-semibold text-[1.5rem] mobile:text-[1.25rem]'>
           {title}
-        </Link>{" "}
-        <div className='shrink-0 mobile:[&>*]:size-[1.5rem] [&>*]:size-[2rem]'>{t(category)}</div>
+        </Link>
+        <div className='flex gap-2 items-center mt-1 capitalize'>
+          {color.name} <div className='rounded-full size-4 border-teal600 border' style={{ backgroundColor: color.hex }}></div>
+        </div>
       </div>
       <p className='line-clamp-3'>{description}</p>
       <div className='flex-1 flex flex-col justify-end gap-4'>
         {!myItem && <hr className='h-px bg-white200 w-full' />}
+        <span className='flex capitalize'>
+          <span className='text-green600 '>{t("Category")}:&nbsp;</span> {t(category)}
+        </span>
         <p>
           <span className='text-green600'>{t("Wants to exchange on")}:</span>
           <br />
-          <span className='line-clamp-1'>
+          <span className='line-clamp-1 capitalize'>
             {wanted && wanted.length > 0 ? wanted.map((category, index) => (index < wanted.length - 1 ? `${t(category)}, ` : t(category))) : t("All")}
           </span>
         </p>
@@ -68,9 +85,6 @@ export const ItemCard: FC<ItemCardProps> = ({ img, title, category, description,
                 <DeleteIcon className='size-8 hover:stroke-soft-red cursor-pointer' onClick={handleDelete} />
                 <EditIcon className='size-8 hover:stroke-orange400 cursor-pointer' onClick={handleEdit} />
               </div>
-              <Button size='sm' className='mobile:w-full'>
-                {t("Promote")}
-              </Button>
             </div>
           </>
         )}

@@ -1,4 +1,4 @@
-import { useDeleteItemMutation, useGetMyItemsQuery } from "@/api/apiSlice";
+import { useDeleteItemMutation, useGetColorsQuery, useGetMyItemsQuery } from "@/api/apiSlice";
 import { ItemCard, Layout, Loader, ReturnTo } from "@/components";
 import { RoutesEnum } from "@/enums";
 import withAuth from "@/hocs/with-auth";
@@ -11,6 +11,7 @@ const MyItemsPage = () => {
   const { t } = useTranslation();
   const { data, isLoading, refetch } = useGetMyItemsQuery();
   const [deleteItem] = useDeleteItemMutation();
+  const { data: colors, isLoading: colorLoading } = useGetColorsQuery();
 
   const handleDelete = async (id: string) => {
     const response = await deleteItem(id);
@@ -27,7 +28,7 @@ const MyItemsPage = () => {
     <Layout>
       <ReturnTo to={RoutesEnum.HOME}>{t("return to Home page")}</ReturnTo>
       <h1 className='text-4xl font-semibold my-5'>{t("My Items")}</h1>
-      {!data || isLoading ? (
+      {!data || isLoading || colorLoading ? (
         <Loader className='mx-auto mt-10' />
       ) : (
         <>
@@ -35,7 +36,7 @@ const MyItemsPage = () => {
             <h1 className='text-center text-3xl mt-10'>{t("You don't  have any items yet")}</h1>
           ) : (
             <div className='items-grid'>
-              {data.list.map(({ id, name, description, category, wantedCategory, pictureIds }: ItemPayload) => (
+              {data.list.map(({ id, name, description, category, wantedCategory, pictureIds, color }: ItemPayload) => (
                 <ItemCard
                   id={id}
                   key={id}
@@ -45,6 +46,7 @@ const MyItemsPage = () => {
                   description={description}
                   wanted={wantedCategory}
                   myItem
+                  color={colors.list.find(({ name }: { name: string }) => name === color)}
                   handleDelete={() => handleDelete(id)}
                 />
               ))}

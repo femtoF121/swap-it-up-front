@@ -1,6 +1,7 @@
 import { ReactComponent as AccountIcon } from "./account.svg";
 import { ReactComponent as ArrowLeftIcon } from "./arrow-left.svg";
 import { ReactComponent as ArrowDownIcon } from "./arrow-down.svg";
+import { ReactComponent as ArrowsSwitchIcon } from "./arrows-switch.svg";
 import { ReactComponent as BurgerMenuIcon } from "./burger-menu.svg";
 import { ReactComponent as CameraIcon } from "./camera.svg";
 import { ReactComponent as CategoryIcon } from "./category.svg";
@@ -19,6 +20,7 @@ export {
   AccountIcon,
   ArrowDownIcon,
   ArrowLeftIcon,
+  ArrowsSwitchIcon,
   BurgerMenuIcon,
   ChatIcon,
   CameraIcon,

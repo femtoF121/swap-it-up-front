@@ -11,7 +11,7 @@ const HomePage = () => {
   const { t } = useTranslation();
   const [getItems, { data, isLoading }] = useLazyGetItemsQuery();
   const { data: categories } = useGetCategoriesQuery();
-  const { data: colors } = useGetColorsQuery();
+  const { data: colors, isLoading: colorLoading } = useGetColorsQuery();
   const { values, handleSubmit, handleChange, setFieldValue, resetForm } = useFormik({
     initialValues: {
       category: [],
@@ -20,16 +20,25 @@ const HomePage = () => {
       search: "",
     },
     onSubmit: () => {
-      console.log(values);
-      getItems(search);
+      getItems({
+        search,
+        category: category.map(({ value }) => value),
+        color: color.map(({ value }) => value),
+        wantedCategory: wantedCategory.map(({ value }) => value),
+      });
     },
   });
 
-  const { search } = values;
+  const { search, category, color, wantedCategory } = values;
 
   useEffect(() => {
-    getItems(search);
-  }, []);
+    getItems({
+      search,
+      category: category.map(({ value }) => value),
+      color: color.map(({ value }) => value),
+      wantedCategory: wantedCategory.map(({ value }) => value),
+    });
+  }, [category, color, wantedCategory]);
 
   return (
     <>
@@ -90,11 +99,11 @@ const HomePage = () => {
             </div>
           </div>
         </form>
-        {!data || isLoading ? (
+        {!data || isLoading || colorLoading ? (
           <Loader className='mx-auto mt-10' />
         ) : (
           <div className='items-grid'>
-            {data.list.map(({ id, name, description, category, wantedCategory, pictureIds }: ItemPayload) => (
+            {data.list.map(({ id, name, description, category, wantedCategory, pictureIds, color }: ItemPayload) => (
               <ItemCard
                 id={id}
                 key={id}
@@ -103,6 +112,7 @@ const HomePage = () => {
                 category={category}
                 description={description}
                 wanted={wantedCategory}
+                color={colors.list.find(({ name }: { name: string }) => name === color)}
               />
             ))}
           </div>

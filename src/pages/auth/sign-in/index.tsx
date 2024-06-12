@@ -9,10 +9,10 @@ import { toast } from "react-toastify";
 import { useLazyGetDetailsQuery, useLoginMutation } from "@/api/apiSlice";
 
 const SignInPage = () => {
-  const [login, { isLoading }] = useLoginMutation();
   const [getDetails] = useLazyGetDetailsQuery();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
   const { errors, touched, handleBlur, values, handleChange, handleSubmit } = useFormik({
     initialValues: { email: "", password: "" },
     onSubmit: async () => {
@@ -67,11 +67,8 @@ const SignInPage = () => {
           <Button size='sm' className='w-full mt-6 mb-2' type='submit'>
             {t("Sign in")}
           </Button>
-          <Button size='sm' variant='secondary' className='w-full mb-4'>
-            {t("Sign in with Google")}
-          </Button>
           <Link to={"#"} className='underline decoration-1 mb-2'>
-            {t("Reset password")}
+            {t("Forgot password")}?
           </Link>
           <span>
             {t("No account?")}{" "}

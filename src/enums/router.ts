@@ -1,6 +1,5 @@
 export const RoutesEnum = {
   HOME: "/",
-  ACCOUNT: "/account",
   CHATS: "/chats",
   ADD_ITEM: "/add",
   EDIT_ITEM: "/edit/:id",
@@ -10,4 +9,6 @@ export const RoutesEnum = {
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
   SETTINGS: "/settings",
+  ADMIN: "/admin",
+  NOT_FOUND: "/404",
 };

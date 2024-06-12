@@ -51,6 +51,7 @@ const AddItemPage = () => {
           wantedCategory: wantedCategory ? wantedCategory.map(({ value }) => value) : [],
           pictureIds,
         });
+        console.log(response);
         if (response.error) toast.error(t("Something went wrong, try again later."), { className: "!bg-error" });
         else {
           toast.success(t("Item added successfully."), { className: "!bg-green100" });
@@ -78,7 +79,7 @@ const AddItemPage = () => {
                 </>
               }
               placeholder={t("Enter the name of your item")}
-              additionalBlock={t("Enter at least 16 characters")}
+              additionalBlock={t("Enter at least 10 characters")}
               charCounter={{ withCharCounter: true, maxChars: 40 }}
               name='name'
               type='text'

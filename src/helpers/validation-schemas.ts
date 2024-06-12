@@ -21,7 +21,7 @@ const registerSchema = loginSchema.concat(
 );
 
 const addItemSchema = yup.object().shape({
-  name: yup.string().required().min(16).max(40),
+  name: yup.string().required().min(10).max(40),
   category: yup.object().required(),
   color: yup.object().required(),
   state: yup.object().required(),

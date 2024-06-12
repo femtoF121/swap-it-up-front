@@ -43,15 +43,6 @@ const EditItemPage = () => {
     initialValues: initialValues,
     onSubmit: async () => {
       try {
-        console.log("sent values", {
-          id: item.id,
-          name,
-          description,
-          color: color!.value,
-          state: parseInt(state!.value),
-          wantedCategory: wantedCategory ? wantedCategory.map(({ value }) => value) : [],
-          pictureIds,
-        });
         const response = await changeItem({
           id: item.id,
           name,
@@ -73,8 +64,6 @@ const EditItemPage = () => {
     validationSchema: editItemSchema,
   });
   const { name, color, state, wantedCategory, description, pictureIds } = values;
-
-  console.log("pictureIds", pictureIds);
 
   useEffect(() => {
     if (item) {
@@ -112,7 +101,7 @@ const EditItemPage = () => {
                 </>
               }
               placeholder={t("Enter the name of your item")}
-              additionalBlock={t("Enter at least 16 characters")}
+              additionalBlock={t("Enter at least 10 characters")}
               charCounter={{ withCharCounter: true, maxChars: 40 }}
               name='name'
               type='text'

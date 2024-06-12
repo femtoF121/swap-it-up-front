@@ -6,9 +6,13 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { LanguageSwitcher } from "../language-switcher";
 
-interface BurgerMenuProps extends ComponentPropsWithoutRef<"div"> {}
+interface BurgerMenuProps extends ComponentPropsWithoutRef<"div"> {
+  userName?: string;
+  withAuth: boolean | undefined;
+  isAdmin?: boolean;
+}
 
-export const BurgerMenu: FC<BurgerMenuProps> = ({ className }) => {
+export const BurgerMenu: FC<BurgerMenuProps> = ({ className, userName, withAuth, isAdmin = false }) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -46,13 +50,30 @@ export const BurgerMenu: FC<BurgerMenuProps> = ({ className }) => {
             <PlusIcon className='rotate-45 text-white400 size-10 ml-auto' onClick={handleClose} />
           </div>
           <div className=' flex flex-col gap-6'>
-            <span className='text-teal400'>{t("Hello")}, Name!</span>
-            <Link to={RoutesEnum.MY_ITEMS}>{t("My items")}</Link>
-            <Link to={RoutesEnum.MY_DEALS}>{t("My deals")}</Link>
-            <Link to={RoutesEnum.CHATS}>{t("Chat")}</Link>
-            <Link to={RoutesEnum.SETTINGS}>{t("Settings")}</Link>
-            <hr className='h-px w-full bg-teal600 my-2' />
-            <Link to={RoutesEnum.SIGN_IN}>{t("Log out")}</Link>
+            {withAuth ? (
+              <>
+                <span className='text-teal400'>
+                  {t("Hello")}, {userName}!
+                </span>
+                {isAdmin ? (
+                  <Link to={RoutesEnum.ADMIN}>{t("Admin controls")}</Link>
+                ) : (
+                  <>
+                    <Link to={RoutesEnum.MY_ITEMS}>{t("My items")}</Link>
+                    <Link to={RoutesEnum.MY_DEALS}>{t("My deals")}</Link>
+                    <Link to={RoutesEnum.CHATS}>{t("Chat")}</Link>
+                  </>
+                )}
+                <Link to={RoutesEnum.SETTINGS}>{t("Settings")}</Link>
+                <hr className='h-px w-full bg-teal600 my-2' />
+                <Link to={RoutesEnum.SIGN_IN}>{t("Log out")}</Link>
+              </>
+            ) : (
+              <>
+                <Link to={RoutesEnum.SIGN_IN}>{t("Sign In")}</Link>
+                <Link to={RoutesEnum.SIGN_UP}>{t("Sign Up")}</Link>
+              </>
+            )}
           </div>
         </div>
       </div>

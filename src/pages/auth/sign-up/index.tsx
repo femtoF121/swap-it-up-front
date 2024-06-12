@@ -120,9 +120,6 @@ const SignUpPage = () => {
             <Button size='sm' className='w-full mt-6 mb-2' onClick={handleFirstStep}>
               {t("Next")}
             </Button>
-            <Button size='sm' variant='secondary' className='w-full mb-4'>
-              {t("Sign up with Google")}
-            </Button>
             <span>
               {t("Have an account")}?{" "}
               <Link to={RoutesEnum.SIGN_IN} className='underline decoration-1 text-orange400'>
@@ -155,9 +152,6 @@ const SignUpPage = () => {
             />
             <Button size='sm' className='w-full mt-6 mb-2' onClick={handleSecondStep}>
               {t("Sign up")}
-            </Button>
-            <Button size='sm' variant='secondary' className='w-full mb-4'>
-              {t("Sign up with Google")}
             </Button>
             <span>
               {t("Have an account")}?{" "}

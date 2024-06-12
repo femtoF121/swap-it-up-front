@@ -3,17 +3,57 @@ import path from "path";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 import tailwindcss from "tailwindcss";
-// import basicSsl from "@vitejs/plugin-basic-ssl";
-import fs from "fs";
+import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 
-// https://vitejs.dev/config/
+const manifestForPlugin: Partial<VitePWAOptions> = {
+  registerType: "prompt",
+  includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+  manifest: {
+    name: "React-vite-app",
+    short_name: "react-vite-app",
+    description: "I am a simple vite app",
+    icons: [
+      {
+        src: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+        purpose: "apple touch icon",
+      },
+      {
+        src: "/maskable_icon.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any maskable",
+      },
+    ],
+    theme_color: "#171717",
+    background_color: "#f0e7db",
+    display: "standalone",
+    scope: "/",
+    start_url: "/",
+    orientation: "portrait",
+  },
+};
+
 export default defineConfig({
   server: {
     port: 5172,
-    // https: { key: fs.readFileSync("key.pem"), cert: fs.readFileSync("cert.pem") },
   },
   plugins: [
     react(),
+    VitePWA(manifestForPlugin),
     svgr({
       svgrOptions: {
         exportType: "named",
@@ -23,14 +63,6 @@ export default defineConfig({
       },
       include: "**/*.svg",
     }),
-    // basicSsl({
-    //   /** name of certification */
-    //   name: "test",
-    //   /** custom trust domains */
-    //   domains: ["*.custom.com"],
-    //   /** custom certification directory */
-    //   certDir: "/Users/.../.devServer/cert",
-    // }),
   ],
   resolve: {
     alias: {
