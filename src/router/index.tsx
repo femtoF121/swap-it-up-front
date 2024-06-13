@@ -15,6 +15,7 @@ const SettingsPage = lazy(() => import("@/pages/settings"));
 const MyItemsPage = lazy(() => import("@/pages/my-items"));
 const MyDealsPage = lazy(() => import("@/pages/my-deals"));
 const ChatsPage = lazy(() => import("@/pages/chats"));
+const ProfilePage = lazy(() => import("@/pages/profile"));
 const AdminPage = lazy(() => import("@/pages/admin"));
 const Error404Page = lazy(() => import("@/pages/404"));
 
@@ -67,6 +68,11 @@ export const router = createBrowserRouter([
   {
     path: RoutesEnum.CHATS,
     Component: () => <Route component={ChatsPage} />,
+    errorElement: <Error404Page />,
+  },
+  {
+    path: RoutesEnum.PROFILE,
+    Component: () => <Route component={ProfilePage} />,
     errorElement: <Error404Page />,
   },
   {

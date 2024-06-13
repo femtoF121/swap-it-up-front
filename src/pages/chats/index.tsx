@@ -1,5 +1,6 @@
 import { Layout, ReturnTo } from "@/components";
 import { RoutesEnum } from "@/enums";
+import withAuth from "@/hocs/with-auth";
 import { useTranslation } from "react-i18next";
 
 const ChatsPage = () => {
@@ -14,8 +15,9 @@ const ChatsPage = () => {
         </div>
         <div className='w-2/3 h-full'></div>
       </div>
+      <h2 className='text-7xl font-bold text-center uppercase mt-10'>coming soon</h2>
     </Layout>
   );
 };
 
-export default ChatsPage;
+export default withAuth(ChatsPage);

@@ -25,7 +25,7 @@ const ItemDetailsPage = () => {
   const { data, isLoading } = useGetItemQuery(id);
   const { data: colors } = useGetColorsQuery();
   const [getAnotherUser, { data: userData, isLoading: userIsLoading }] = useLazyGetUserDetailsQuery();
-  const { data: myItems, isLoading: myItemsLoading } = useGetMyItemsQuery();
+  const { data: myItems, isLoading: myItemsLoading, isError } = useGetMyItemsQuery();
   const [deleteItem] = useDeleteItemMutation();
 
   const onModalClose = () => {
@@ -38,7 +38,7 @@ const ItemDetailsPage = () => {
   const UserLink = () => {
     if (userData)
       return (
-        <Link to={RoutesEnum.CHATS} className='text-green600'>
+        <Link to={RoutesEnum.PROFILE.replace(":id", userData.id)} className='text-green600'>
           {userData.name} {userData.surname}
         </Link>
       );
@@ -158,7 +158,7 @@ const ItemDetailsPage = () => {
               <div className='flex flex-1 items-end gap-6 mt-8'>
                 {myItemsLoading ? (
                   <Loader />
-                ) : myItems.list.map(({ id }: any) => id).includes(data.id) ? (
+                ) : myItems?.list.map(({ id }: any) => id).includes(data.id) ? (
                   <>
                     <Button variant='secondary' size='sm' className='text-xl h-fit py-2 w-full max-w-[200px]' onClick={handleDelete}>
                       {t("Delete")}
@@ -169,10 +169,20 @@ const ItemDetailsPage = () => {
                   </>
                 ) : (
                   <>
-                    <Button size='sm' className='text-xl h-fit py-2 w-full max-w-[275px]' onClick={onModalOpen}>
+                    <Button
+                      size='sm'
+                      className='text-xl h-fit py-2 w-full max-w-[275px]'
+                      onClick={() => {
+                        if (!myItems) navigate(RoutesEnum.SIGN_IN);
+                        else onModalOpen;
+                      }}>
                       {t("Exchange")}
                     </Button>
-                    <Button variant='secondary' size='sm' className='text-xl h-fit py-2 w-full max-w-[275px]'>
+                    <Button
+                      variant='secondary'
+                      size='sm'
+                      className='text-xl h-fit py-2 w-full max-w-[275px]'
+                      onClick={() => navigate(RoutesEnum.CHATS)}>
                       {t("Write to user")}
                     </Button>
                   </>

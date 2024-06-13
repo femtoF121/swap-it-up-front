@@ -9,6 +9,7 @@ export const RoutesEnum = {
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
   SETTINGS: "/settings",
+  PROFILE: "/profile/:id",
   ADMIN: "/admin",
   NOT_FOUND: "/404",
 };

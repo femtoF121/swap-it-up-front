@@ -68,7 +68,7 @@ export const apiSlice = createApi({
     getUserDetails: builder.query({
       query: (id) => `/user/details/${id}`,
     }),
-    getAvatar: builder.query<any, void>({
+    getAvatar: builder.query({
       query: (id) => ({ url: `/user/details/${id}/avatar`, responseHandler: (response) => response.text() }),
     }),
     forgotPassword: builder.mutation({
@@ -239,6 +239,7 @@ export const {
   useAddDetailsMutation,
   useChangeDetailsMutation,
   useDeleteUserMutation,
+  useGetAvatarQuery,
   useLazyGetAvatarQuery,
   useForgotPasswordMutation,
   useResetPasswordMutation,

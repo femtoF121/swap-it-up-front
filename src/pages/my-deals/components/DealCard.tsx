@@ -31,7 +31,7 @@ export const DealCard: FC<DealCardProps> = ({ offered, requested, myDeal, incomi
   const UserLink: FC<{ className?: string }> = ({ className }) => {
     if (anotherUserData)
       return (
-        <Link to={RoutesEnum.CHATS} className={cn("text-green600", className)}>
+        <Link to={RoutesEnum.PROFILE.replace(":id", anotherUserData.id)} className={cn("text-green600", className)}>
           {anotherUserData.name} {anotherUserData.surname}
         </Link>
       );
