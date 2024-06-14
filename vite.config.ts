@@ -48,12 +48,16 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
 };
 
 export default defineConfig({
+  base: "/swap-it-up-front/",
   server: {
     port: 5172,
   },
   plugins: [
     react(),
-    VitePWA(manifestForPlugin),
+    VitePWA({
+      registerType: "autoUpdate",
+      manifest: manifestForPlugin,
+    }),
     svgr({
       svgrOptions: {
         exportType: "named",

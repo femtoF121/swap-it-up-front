@@ -25,7 +25,7 @@ const ItemDetailsPage = () => {
   const { data, isLoading } = useGetItemQuery(id);
   const { data: colors } = useGetColorsQuery();
   const [getAnotherUser, { data: userData, isLoading: userIsLoading }] = useLazyGetUserDetailsQuery();
-  const { data: myItems, isLoading: myItemsLoading, isError } = useGetMyItemsQuery();
+  const { data: myItems, isLoading: myItemsLoading } = useGetMyItemsQuery();
   const [deleteItem] = useDeleteItemMutation();
 
   const onModalClose = () => {
@@ -173,8 +173,11 @@ const ItemDetailsPage = () => {
                       size='sm'
                       className='text-xl h-fit py-2 w-full max-w-[275px]'
                       onClick={() => {
-                        if (!myItems) navigate(RoutesEnum.SIGN_IN);
-                        else onModalOpen;
+                        if (!myItems) {
+                          navigate(RoutesEnum.SIGN_IN);
+                          return;
+                        }
+                        onModalOpen();
                       }}>
                       {t("Exchange")}
                     </Button>

@@ -14,6 +14,9 @@ i18n
     supportedLngs: ["en", "uk"],
     nonExplicitSupportedLngs: false,
     returnEmptyString: false,
+    backend: {
+      loadPath: "/swap-it-up-front/locales/{{lng}}/translation.json",
+    },
   });
 
 export default i18n;
