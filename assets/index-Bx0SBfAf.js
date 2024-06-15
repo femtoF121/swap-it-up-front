@@ -1,0 +1,1 @@
+import{j as s,k as n,c,ac as o}from"./index-UD_dH3ZA.js";const i=({to:e,className:r,children:a,...t})=>s.jsxs(n,{...t,className:c("flex gap-2 items-center",r),to:e,children:[s.jsx(o,{}),a]});export{i as R};
