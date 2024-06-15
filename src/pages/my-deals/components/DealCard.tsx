@@ -1,11 +1,9 @@
 import { useAcceptDealMutation, useCancelDealMutation, useDeleteDealMutation, useFinishDealMutation, useGetUserDetailsQuery } from "@/api/apiSlice";
 import { ArrowsSwitchIcon } from "@/assets/icons";
-import { Button, Card, Loader } from "@/components";
-import { RoutesEnum } from "@/enums";
+import { Button, Card, Loader, UserLink } from "@/components";
 import { ItemPayload } from "@/types/item";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { ItemCard } from "./ItemCard";
 import { toast } from "react-toastify";
 import cn from "classnames";
@@ -26,16 +24,6 @@ export const DealCard: FC<DealCardProps> = ({ offered, requested, myDeal, incomi
   const [acceptDeal] = useAcceptDealMutation();
   const [cancelDeal] = useCancelDealMutation();
   const [finishDeal] = useFinishDealMutation();
-  console.log(status);
-
-  const UserLink: FC<{ className?: string }> = ({ className }) => {
-    if (anotherUserData)
-      return (
-        <Link to={RoutesEnum.PROFILE.replace(":id", anotherUserData.id)} className={cn("text-green600", className)}>
-          {anotherUserData.name} {anotherUserData.surname}
-        </Link>
-      );
-  };
 
   const handleDeclineDeal = async () => {
     const response = await declineDeal(id);
@@ -86,7 +74,7 @@ export const DealCard: FC<DealCardProps> = ({ offered, requested, myDeal, incomi
           <div className={cn("flex gap-4 w-full", anotherUserData ? "justify-between" : "justify-end")}>
             {anotherUserData && (
               <h2 className='text-[24px] below-768:text-[24px] mb-[24px] below-768:mb-[4px] leading-none'>
-                {t("Deal")} {t("with")} <UserLink />
+                {t("Deal")} {t("with")} <UserLink user={anotherUserData} />
               </h2>
             )}
             <div>
@@ -107,7 +95,7 @@ export const DealCard: FC<DealCardProps> = ({ offered, requested, myDeal, incomi
           <div className='w-full shrink-[1.1]'>
             <h3 className='mb-[16px] below-768:mb-[12px] text-[16px]'>
               {t("Item of user")}&nbsp;
-              <UserLink />:
+              <UserLink user={anotherUserData} withRating={false} />:
             </h3>
             <ItemCard item={myDeal ? requested : offered} />
             <div className='relative mb-[24px] mt-[32px] below-768:mb-[16px]  below-768:mt-[20px]'>

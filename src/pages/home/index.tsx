@@ -1,11 +1,11 @@
-import { Button, CustomSelect, Input, ItemCard, Layout, Loader, ScrollButton } from "@/components";
+import { Button, CustomSelect, Input, ItemCard, Layout, Loader, Rating, ScrollButton } from "@/components";
 import { PlusIcon, SearchIcon } from "@/assets/icons";
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
 import { useGetCategoriesQuery, useGetColorsQuery, useLazyGetItemsQuery } from "@/api/apiSlice";
 import { categoriesOptions, colorOptions } from "@/helpers/select-options";
 import { ItemPayload } from "@/types/item";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -40,9 +40,12 @@ const HomePage = () => {
     });
   }, [category, color, wantedCategory]);
 
+  const [stars, setStars] = useState([false, false, false, false, false]);
+
   return (
     <>
       <Layout>
+        <Rating stars={stars} setStars={setStars} />
         <form onSubmit={handleSubmit}>
           <h3 className='text-2xl font-semibold mb-3 flex items-end gap-10'>
             {t("Filters")}

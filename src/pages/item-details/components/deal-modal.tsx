@@ -112,7 +112,7 @@ export const DealModal: FC<DealModalProps> = ({ onClose, userLink, isOpen, class
                   className={cn("flex-1 !py-[12px] !px-0 below-768:max-h-[197px] max-h-[295px]", {
                     "flex items-center justify-center": !myItems,
                   })}>
-                  <div className='overflow-scroll py-1 h-full below-768:max-h-[163px] w-full space-y-[8px] px-[12px]'>
+                  <div className='overflow-auto py-1 h-full below-768:max-h-[163px] w-full space-y-[8px] px-[12px]'>
                     {!myItems ? (
                       <Loader className='size-[32px]' />
                     ) : (

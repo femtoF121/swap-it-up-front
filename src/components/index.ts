@@ -1,3 +1,5 @@
+import { Rating } from "./rating";
+import { UserLink } from "./user-link";
 import { Textarea } from "./textarea";
 import { ScrollButton } from "./scroll-button";
 import { BurgerMenu } from "./burger-menu";
@@ -30,4 +32,6 @@ export {
   ScrollButton,
   CustomSelect,
   Textarea,
+  Rating,
+  UserLink,
 };

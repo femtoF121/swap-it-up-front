@@ -1,9 +1,9 @@
 import { useDeleteItemMutation, useGetColorsQuery, useGetItemQuery, useGetMyItemsQuery, useLazyGetUserDetailsQuery } from "@/api/apiSlice";
 import { ArrowDownIcon, LocationMarkerIcon } from "@/assets/icons";
-import { Button, Card, Layout, Loader, ReturnTo } from "@/components";
+import { Button, Card, Layout, Loader, ReturnTo, UserLink } from "@/components";
 import { RoutesEnum } from "@/enums";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Badge } from "./components/badge";
 import { STATE_OPTIONS } from "@/constants/select-options";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -33,15 +33,6 @@ const ItemDetailsPage = () => {
   };
   const onModalOpen = () => {
     setIsModalOpen(true);
-  };
-
-  const UserLink = () => {
-    if (userData)
-      return (
-        <Link to={RoutesEnum.PROFILE.replace(":id", userData.id)} className='text-green600'>
-          {userData.name} {userData.surname}
-        </Link>
-      );
   };
 
   const handleEdit = () => {
@@ -117,7 +108,7 @@ const ItemDetailsPage = () => {
             <Card className='w-full flex flex-col max-w-[700px]'>
               <div className='flex justify-between gap-4 flex-wrap text-white200'>
                 <span>
-                  {t("Published by")} <UserLink />
+                  {t("Published by")} <UserLink user={userData} />
                 </span>
                 <div className='flex gap-2 items-center'>
                   {userData && (userData.address?.country || userData.address?.city) && (
@@ -195,7 +186,7 @@ const ItemDetailsPage = () => {
           </div>
         )}
       </Layout>
-      <DealModal item={data} isOpen={isModalOpen} onClose={onModalClose} userLink={<UserLink />} />
+      <DealModal item={data} isOpen={isModalOpen} onClose={onModalClose} userLink={<UserLink user={userData} />} />
     </>
   );
 };
