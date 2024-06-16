@@ -161,10 +161,10 @@ const ItemDetailsPage = () => {
                     </Button>
                   </>
                 ) : (
-                  <>
+                  <div className='flex gap-6 w-full'>
                     <Button
                       size='sm'
-                      className='text-xl h-fit py-2 w-full max-w-[275px]'
+                      className='text-xl h-auto py-2 w-full max-w-[275px]'
                       onClick={() => {
                         if (!myItems) {
                           navigate(RoutesEnum.SIGN_IN);
@@ -181,7 +181,7 @@ const ItemDetailsPage = () => {
                       onClick={() => navigate(RoutesEnum.CHATS)}>
                       {t("Write to user")}
                     </Button>
-                  </>
+                  </div>
                 )}
               </div>
             </Card>

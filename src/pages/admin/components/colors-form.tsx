@@ -74,7 +74,7 @@ export const ColorsForm = () => {
           </Button>
         </div>
         <div className='flex flex-col gap-4'>
-          <h3 className='text-[16px]'>{t("Existing categories")}:</h3>
+          <h3 className='text-[16px]'>{t("Existing colors")}:</h3>
           {isLoading ? (
             <Loader className='size-8' />
           ) : (

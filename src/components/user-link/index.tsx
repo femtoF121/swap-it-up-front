@@ -10,7 +10,7 @@ export const UserLink: FC<UserLinkProps> = ({ className, user, withRating = true
   if (user)
     return (
       <Link to={RoutesEnum.PROFILE.replace(":id", user.id)} className={cn("text-green600 inline-flex gap-1", className)}>
-        {user.name} {user.surname}{" "}
+        {user.name}{" "}
         {withRating && (
           <span className='flex gap-1'>
             <StarIcon />

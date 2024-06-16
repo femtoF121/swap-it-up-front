@@ -2,7 +2,7 @@ import { useAcceptDealMutation, useCancelDealMutation, useDeleteDealMutation, us
 import { ArrowsSwitchIcon } from "@/assets/icons";
 import { Button, Card, Loader, UserLink } from "@/components";
 import { ItemPayload } from "@/types/item";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ItemCard } from "./ItemCard";
 import { toast } from "react-toastify";
@@ -30,7 +30,7 @@ export const DealCard: FC<DealCardProps> = ({ offered, requested, myDeal, incomi
   const [acceptDeal] = useAcceptDealMutation();
   const [cancelDeal] = useCancelDealMutation();
   const [finishDeal] = useFinishDealMutation();
-
+  console.log();
   const handleDeclineDeal = async () => {
     const response = await declineDeal(id);
     if (response.error) {
@@ -75,6 +75,11 @@ export const DealCard: FC<DealCardProps> = ({ offered, requested, myDeal, incomi
     userRefetch();
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    refetch();
+    userRefetch();
+  }, [offered.rate, requested.rate]);
 
   return (
     <Card className='!font-semibold w-full'>
@@ -142,13 +147,11 @@ export const DealCard: FC<DealCardProps> = ({ offered, requested, myDeal, incomi
                 {t("Delete")}
               </Button>
             )}
-            {status === 4 && myDeal
-              ? requested.rate === 0
-              : offered.rate === 0 && (
-                  <Button size='sm' onClick={() => setIsModalOpen(true)}>
-                    {t("Rate user")}
-                  </Button>
-                )}
+            {status === 4 && (myDeal ? requested.rate === 0 : offered.rate === 0) && (
+              <Button variant='secondary' size='sm' onClick={() => setIsModalOpen(true)} className='!text-[16px] !px-[24px] !h-[40px]'>
+                {t("Rate user")}
+              </Button>
+            )}
           </div>
         </>
       )}
