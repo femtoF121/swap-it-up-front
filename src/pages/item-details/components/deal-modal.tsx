@@ -65,10 +65,10 @@ export const DealModal: FC<DealModalProps> = ({ onClose, userLink, isOpen, class
             <p>
               <span className='text-green600'>{t("Wants to exchange on")}:</span>
               <br />
-              <span className='line-clamp-1'>{item.wantedCategory}</span>
+              <span className='line-clamp-1 capitalize'>{item.wantedCategory}</span>
             </p>
           ) : (
-            <p>
+            <p className='capitalize'>
               <span className='text-green600'>{t("Category")}: </span>
               {item.category}
             </p>

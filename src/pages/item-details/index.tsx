@@ -124,7 +124,7 @@ const ItemDetailsPage = () => {
                 </div>
               </div>
               <h1 className='text-4xl font-semibold my-4 leading-normal'>{data.name}</h1>
-              <div className='flex flex-wrap gap-4'>
+              <div className='flex flex-wrap gap-4 capitalize'>
                 {data.category && <Badge>{data.category}</Badge>}
                 {data.color && colors && (
                   <Badge className='flex gap-2 items-center'>
@@ -144,7 +144,7 @@ const ItemDetailsPage = () => {
               <p className='my-4'>{data.description}</p>
               <div className='text-xl'>
                 <p className='text-green600'>{t("Wants to exchange on")}:</p>
-                <p>{data.wantedCategory.length > 0 ? data.wantedCategory.join(", ") : t("All")}</p>
+                <p className='capitalize'>{data.wantedCategory.length > 0 ? data.wantedCategory.join(", ") : t("All")}</p>
               </div>
               <div className='flex flex-1 items-end gap-6 mt-8'>
                 {myItemsLoading ? (

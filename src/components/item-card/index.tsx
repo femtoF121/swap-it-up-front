@@ -68,7 +68,7 @@ export const ItemCard: FC<ItemCardProps> = ({
       <div className='flex-1 flex flex-col justify-end gap-4'>
         {!myItem && <hr className='h-px bg-white200 w-full' />}
         <span className='flex capitalize'>
-          <span className='text-green600 '>{t("Category")}:&nbsp;</span> {t(category)}
+          <span className='text-green600'>{t("Category")}:&nbsp;</span> {t(category)}
         </span>
         <p>
           <span className='text-green600'>{t("Wants to exchange on")}:</span>

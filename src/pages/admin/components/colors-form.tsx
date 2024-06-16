@@ -10,7 +10,7 @@ export const ColorsForm = () => {
   const { t } = useTranslation();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
-  const [hex, setHex] = useState("");
+  const [hex, setHex] = useState("#");
   const [hexError, setHexError] = useState("");
   const [addColor] = useAddColorMutation();
   const [deleteColor] = useDeleteColorMutation();
@@ -18,7 +18,7 @@ export const ColorsForm = () => {
 
   const handleAddColor = async () => {
     setName("");
-    setHex("");
+    setHex("#");
     if (!name) {
       setNameError(t("Name is required"));
     }
