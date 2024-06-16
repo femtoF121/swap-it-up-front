@@ -1,0 +1,1 @@
+import{j as s,i,R as r,c as t,U as x}from"./index-ChiGoYOE.js";const l=({className:a,user:e,withRating:n=!0})=>{if(e)return s.jsxs(i,{to:r.PROFILE.replace(":id",e.id),className:t("text-green600 inline-flex gap-1",a),children:[e.name," ",n&&s.jsxs("span",{className:"flex gap-1",children:[s.jsx(x,{}),e.rate]})]})};export{l as U};
