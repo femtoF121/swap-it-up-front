@@ -1,7 +1,7 @@
-import { useAddDealMutation } from "@/api/apiSlice";
-import { Button, Card } from "@/components";
+import { useRateItemMutation } from "@/api/apiSlice";
+import { Button, Card, Rating } from "@/components";
 import useOnClickOutside from "@/hooks/useClickOutside";
-import { FC, HTMLAttributes, useEffect } from "react";
+import { FC, HTMLAttributes, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
@@ -9,20 +9,22 @@ type RatingModalProps = {
   onClose: () => void;
   isOpen: boolean;
   className?: string;
+  ratedItemID: string;
 } & HTMLAttributes<HTMLDivElement>;
 
-export const RatingModal: FC<RatingModalProps> = ({ onClose, isOpen, className, ...rest }) => {
+export const RatingModal: FC<RatingModalProps> = ({ onClose, isOpen, className, ratedItemID, ...rest }) => {
   const { t } = useTranslation();
   const ref = useOnClickOutside(onClose);
-  const [addDeal] = useAddDealMutation();
+  const [rate] = useRateItemMutation();
+  const [stars, setStars] = useState([false, false, false, false, false]);
 
   const handleSubmit = async () => {
-    const response = await addDeal({});
+    const response = await rate({ id: ratedItemID, rate: stars.filter((v) => v).length });
     if (response.error) {
       toast.error(t("Something went wrong, try again later."), { className: "!bg-error" });
       return;
     }
-    toast.success(t("Request sent successfully"), { className: "!bg-green100" });
+    toast.success(t("User rated successfully"), { className: "!bg-green100" });
     onClose();
   };
 
@@ -36,22 +38,13 @@ export const RatingModal: FC<RatingModalProps> = ({ onClose, isOpen, className, 
 
   if (isOpen)
     return (
-      <div className='fixed z-20 w-full min-h-screen top-0 bg-white400/40 flex justify-center items-center'>
-        <div className=' w-full max-w-[850px] mx-10 my-4' ref={ref} {...rest}>
-          <Card className='!font-semibold w-full'>
-            <div className='flex gap-[24px] below-768:gap-[16px] below-768:flex-col-reverse'>
-              <div className='w-full flex flex-col'>
-                <h3 className='mb-[16px] below-768:mb-[12px] text-[16px]'>{t("Your items")}:</h3>
-              </div>
-            </div>
-            <div className='flex items-center justify-end gap-[16px] mt-[16px]'>
-              <button className='hover:underline decoration-[1.5px] text-[16px]' onClick={onClose}>
-                {t("Cancel")}
-              </button>
-              <Button type='submit' size='sm' onClick={handleSubmit} className='!text-[16px] !px-[24px] !h-[40px]'>
-                {t("Send request")}
-              </Button>
-            </div>
+      <div className='fixed z-20 inset-0 top-0 bg-white400/40 !w-full flex justify-center items-center'>
+        <div className=' w-full max-w-[500px] mx-10 my-4' ref={ref} {...rest}>
+          <Card className='!font-semibold w-full flex flex-col items-center gap-6'>
+            <Rating className='[&>*]:size-16 !text-6xl' stars={stars} setStars={setStars} />
+            <Button size='sm' disabled={stars.filter((v) => v).length <= 0} onClick={handleSubmit}>
+              {t("Rate user")}
+            </Button>
           </Card>
         </div>
       </div>

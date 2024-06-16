@@ -67,9 +67,6 @@ const SignInPage = () => {
           <Button size='sm' className='w-full mt-6 mb-2' type='submit'>
             {t("Sign in")}
           </Button>
-          <Link to={"#"} className='underline decoration-1 mb-2'>
-            {t("Forgot password")}?
-          </Link>
           <span>
             {t("No account?")}{" "}
             <Link to={RoutesEnum.SIGN_UP} className='underline decoration-1 text-orange400'>

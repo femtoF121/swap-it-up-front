@@ -1,12 +1,14 @@
 import { StarIcon } from "@/assets/icons";
 import { Dispatch, FC, SetStateAction, useState } from "react";
+import cn from "classnames";
 
 type RatingProps = {
   setStars: Dispatch<SetStateAction<boolean[]>>;
   stars: boolean[];
+  className?: string;
 };
 
-export const Rating: FC<RatingProps> = ({ setStars, stars }) => {
+export const Rating: FC<RatingProps> = ({ setStars, stars, className }) => {
   const [hoveredStar, setHoveredStar] = useState(-1);
 
   const handleClickStar = (index: number) => {
@@ -28,7 +30,7 @@ export const Rating: FC<RatingProps> = ({ setStars, stars }) => {
   };
 
   return (
-    <div className='flex items-center'>
+    <div className={cn("flex items-center text-2xl", className)}>
       {stars.map((fill, index) => (
         <StarIcon
           key={index}
@@ -38,7 +40,7 @@ export const Rating: FC<RatingProps> = ({ setStars, stars }) => {
           onClick={() => handleClickStar(index)}
         />
       ))}
-      <span className='font-semibold ml-2 text-2xl'>{stars.filter((v) => v).length}</span>
+      <span className='font-semibold ml-2'>{stars.filter((v) => v).length}</span>
     </div>
   );
 };

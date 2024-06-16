@@ -125,14 +125,14 @@ const ItemDetailsPage = () => {
               </div>
               <h1 className='text-4xl font-semibold my-4 leading-normal'>{data.name}</h1>
               <div className='flex flex-wrap gap-4 capitalize'>
-                {data.category && <Badge>{data.category}</Badge>}
+                {data.category && <Badge>{t(data.category)}</Badge>}
                 {data.color && colors && (
                   <Badge className='flex gap-2 items-center'>
                     <div
                       className='size-4 outline outline-[1px] outline-teal600 rounded-full'
                       style={{ backgroundColor: colors.list.find(({ name }: { name: string; hex: string }) => name === data.color).hex }}
                     />
-                    {data.color}
+                    {t(data.color)}
                   </Badge>
                 )}
                 {(data.state !== null || data.state !== undefined) && (
@@ -144,7 +144,9 @@ const ItemDetailsPage = () => {
               <p className='my-4'>{data.description}</p>
               <div className='text-xl'>
                 <p className='text-green600'>{t("Wants to exchange on")}:</p>
-                <p className='capitalize'>{data.wantedCategory.length > 0 ? data.wantedCategory.join(", ") : t("All")}</p>
+                <p className='capitalize'>
+                  {data.wantedCategory.length > 0 ? data.wantedCategory.map((string: any) => t(string)).join(", ") : t("All")}
+                </p>
               </div>
               <div className='flex flex-1 items-end gap-6 mt-8'>
                 {myItemsLoading ? (

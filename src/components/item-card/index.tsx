@@ -61,7 +61,7 @@ export const ItemCard: FC<ItemCardProps> = ({
           {title}
         </Link>
         <div className='flex gap-2 items-center mt-1 capitalize'>
-          {color.name} <div className='rounded-full size-4 border-teal600 border' style={{ backgroundColor: color.hex }}></div>
+          {t(color.name)} <div className='rounded-full size-4 border-teal600 border' style={{ backgroundColor: color.hex }}></div>
         </div>
       </div>
       <p className='line-clamp-3'>{description}</p>

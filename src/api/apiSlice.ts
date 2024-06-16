@@ -71,13 +71,6 @@ export const apiSlice = createApi({
     getAvatar: builder.query({
       query: (id) => ({ url: `/user/details/${id}/avatar`, responseHandler: (response) => response.text() }),
     }),
-    forgotPassword: builder.mutation({
-      query: (details) => ({
-        url: "/user/forgotPassword",
-        method: "POST",
-        body: details,
-      }),
-    }),
     resetPassword: builder.mutation({
       query: (details) => ({
         url: "/user/resetPassword",
@@ -146,6 +139,16 @@ export const apiSlice = createApi({
         };
       },
     }),
+    rateItem: builder.mutation({
+      query: ({ id, rate }) => ({
+        url: `/items/${id}/rate`,
+        method: "PATCH",
+        body: rate,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
     //#endregion
 
     //#region deals
@@ -168,19 +171,19 @@ export const apiSlice = createApi({
     acceptDeal: builder.mutation({
       query: (id) => ({
         url: `/deals/${id}/accept`,
-        method: "patch",
+        method: "PATCH",
       }),
     }),
     cancelDeal: builder.mutation({
       query: (id) => ({
         url: `/deals/${id}/cancel`,
-        method: "patch",
+        method: "PATCH",
       }),
     }),
     finishDeal: builder.mutation({
       query: (id) => ({
         url: `/deals/${id}/finish`,
-        method: "patch",
+        method: "PATCH",
       }),
     }),
     //#endregion
@@ -241,7 +244,6 @@ export const {
   useDeleteUserMutation,
   useGetAvatarQuery,
   useLazyGetAvatarQuery,
-  useForgotPasswordMutation,
   useResetPasswordMutation,
 
   useGetItemsQuery,
@@ -254,6 +256,7 @@ export const {
   useGetItemPictureQuery,
   useDeleteItemPictureMutation,
   useAddItemPictureMutation,
+  useRateItemMutation,
 
   useGetDealsQuery,
   useAddDealMutation,

@@ -3,7 +3,7 @@ import path from "path";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 import tailwindcss from "tailwindcss";
-import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   base: "/swap-it-up-front/",
