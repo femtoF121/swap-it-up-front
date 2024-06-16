@@ -1,0 +1,1 @@
+import{j as e,i,R as r,c as t,U as x}from"./index-BWO5Dofk.js";const l=({className:s,user:a,withRating:n=!0})=>{if(a)return e.jsxs(i,{to:r.PROFILE.replace(":id",a.id),className:t("text-green600 inline-flex gap-1",s),children:[a.name," ",a.surname," ",n&&e.jsxs("span",{className:"flex gap-1",children:[e.jsx(x,{}),a.rate]})]})};export{l as U};
